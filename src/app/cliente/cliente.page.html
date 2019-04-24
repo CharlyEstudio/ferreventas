@@ -1,0 +1,82 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Información del Cliente</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary">
+
+    <ion-card class="welcome-card" color="primary">
+        <ion-img [src]="'http://177.244.55.122/assets/clientes/' + dato.img"></ion-img>
+        <ion-card-header>
+            <ion-card-subtitle>
+                <ion-icon name="radio-button-on" color="success" *ngIf="dato.activo === 1"></ion-icon>
+                <ion-icon name="radio-button-on" color="danger" *ngIf="dato.activo === 0"></ion-icon>
+                #{{dato.numero}} {{dato.nombre}}
+                <br>
+                <ion-badge color="danger">{{ dato.membresia }}</ion-badge>
+            </ion-card-subtitle>
+            <ion-card-title>
+                <small class="small-titulo">COMERCIO</small>
+                <br> {{dato.comercio}}
+            </ion-card-title>
+            <ion-card-subtitle>
+                <small class="small-titulo">DIRECCION</small>
+                <br> {{dato.domicilio}}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+                <small class="small-titulo">EMAIL REGISTRADO</small>
+                <br> {{dato.email}}
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-badge color="danger">Ultima Compra: {{ dato.ultima }}</ion-badge>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-list lines="none">
+        <ion-list-header color="secondary">
+            <ion-label>Información</ion-label>
+        </ion-list-header>
+        <ion-item color="secondary">
+            <ion-icon slot="start" color="medium" name="list-box"></ion-icon>
+            <ion-label>
+                <ion-badge color="danger" *ngIf="dato.vencidos > 0">Facturas Vencidas {{ dato.vencidos }}</ion-badge>
+                <ion-badge color="success" *ngIf="dato.vencidos === 0">Facturas Vencidas {{ dato.vencidos }}</ion-badge>
+            </ion-label>
+        </ion-item>
+        <ion-item color="secondary">
+            <ion-icon slot="start" color="medium" name="code-working"></ion-icon>
+            <ion-label>
+                <ion-badge color="danger">Días de Crédito {{ dato.dias }}</ion-badge>
+            </ion-label>
+        </ion-item>
+        <ion-item color="secondary">
+            <ion-icon slot="start" color="medium" name="wallet"></ion-icon>
+            <ion-label>
+                <ion-badge color="danger" *ngIf="dato.saldo > 0">Saldo {{ dato.saldo | currency }}</ion-badge>
+                <ion-badge color="success" *ngIf="dato.saldo === 0">Saldo {{ dato.saldo | currency }}</ion-badge>
+            </ion-label>
+        </ion-item>
+        <ion-item color="secondary">
+            <ion-icon slot="start" color="medium" name="hammer"></ion-icon>
+            <ion-label>
+                <ion-badge color="medium">Límite {{ dato.limite | currency }}</ion-badge>
+            </ion-label>
+        </ion-item>
+        <ion-item color="secondary">
+            <ion-icon slot="start" color="medium" name="pricetag"></ion-icon>
+            <ion-label>
+                <ion-badge color="medium">Forma de Pago {{ dato.forpag }}</ion-badge>
+            </ion-label>
+        </ion-item>
+        <ion-item color="secondary">
+            <ion-icon slot="start" color="medium" name="mail"></ion-icon>
+            <ion-label>Enviar un comentario</ion-label>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

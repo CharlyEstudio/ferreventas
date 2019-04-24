@@ -1,6 +1,8 @@
 {
   "name": "visor",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "95435662"
 }

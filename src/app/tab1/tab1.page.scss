@@ -1,4 +1,14 @@
 .welcome-card ion-img {
-  max-height: 35vh;
-  overflow: hidden;
+    max-height: 35vh;
+    overflow: hidden;
+}
+
+ion-list {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 8px;
+}
+
+.cliente-nombre {
+    font-size: 12px;
 }
