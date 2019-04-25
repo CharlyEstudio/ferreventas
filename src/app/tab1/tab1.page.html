@@ -1,5 +1,13 @@
 <ion-header>
     <ion-toolbar color="primary">
+        <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
+            <ion-icon color="success" name="disc" *ngIf="ws.socketStatus"></ion-icon>
+            OnLine
+        </ion-buttons>
+        <ion-buttons padding slot="end" *ngIf="!ws.socketStatus">
+            <ion-icon color="danger" name="disc" *ngIf="!ws.socketStatus"></ion-icon>
+            OffLine
+        </ion-buttons>
         <ion-title>
             Clientes
         </ion-title>
@@ -7,6 +15,10 @@
 </ion-header>
 
 <ion-content color="secondary">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslice para Actualizar" refreshingSpinner="circles" refreshingText="Actualizando...">
+        </ion-refresher-content>
+    </ion-refresher>
     <ion-card class="welcome-card" color="primary">
         <ion-img src="/assets/fondo1.jpg"></ion-img>
         <ion-card-header>

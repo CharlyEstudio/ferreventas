@@ -13,7 +13,7 @@ export class ImeiService {
     private androidPermissions: AndroidPermissions
   ) { }
 
-  async getImei() {
+  async getImeiN() {
     const { hasPermission } = await this.androidPermissions.checkPermission(
       this.androidPermissions.PERMISSION.READ_PHONE_STATE
     );
@@ -31,6 +31,6 @@ export class ImeiService {
       return;
     }
 
-     return this.uid.IMEI;
+    return this.uid.IMEI;
    }
 }

@@ -6,10 +6,16 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content color="primary">
+<ion-content text-center color="primary" *ngIf="lat === 0">
 
-    <!--<agm-map [latitude]="lat" [longitude]="lng">
-        <agm-marker *ngFor="" [latitude]="lat" [longitude]="lng"></agm-marker>
-    </agm-map>-->
+    <h1 class="sin-datos">Obteniendo los datos</h1>
+
+</ion-content>
+
+<ion-content color="primary" *ngIf="lat > 0">
+
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="10">
+        <agm-marker *ngFor="let cli of clientes" [latitude]="cli.lat" [longitude]="cli.lng"></agm-marker>
+    </agm-map>
 
 </ion-content>

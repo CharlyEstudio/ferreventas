@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+// Plugins
+import { Storage } from '@ionic/storage';
+
 // Servicios
 import { ClientesService } from '../services/clientes.service';
 import { UsuarioService } from '../services/usuario.service';
+import { ImeiService } from '../services/imei.service';
+import { Platform } from '@ionic/angular';
+import { WsService } from '../services/ws.service';
 
 @Component({
   selector: 'app-tab1',
@@ -11,6 +17,8 @@ import { UsuarioService } from '../services/usuario.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+
+  status = false;
 
   // Datos del Usurio
   user: any;
@@ -26,26 +34,64 @@ export class Tab1Page {
   msg: any;
 
   constructor(
+    private plt: Platform,
     private router: Router,
+    private storage: Storage,
+    public ws: WsService,
     private clientes: ClientesService,
-    private usuario: UsuarioService
+    private usuario: UsuarioService,
+    private imeiSer: ImeiService
   ) {
-    // this.imei = 359270078018344;
-    this.imei = 123456;
-    this.usuario.usuario(this.imei).subscribe((use: any) => {
-      this.user = use;
-      this.idFerrum = use.idFerrum;
-      this.clientes.clientes(this.idFerrum).subscribe((cli: any) => {
-        if (cli.length !== 0) {
-          this.client = cli;
-          this.msg = 'ACTIVO';
-        } else {
-          this.msg = 'Sin Clientes';
-        }
+    this.load();
+    this.current = 'Gerencia';
+    this.message = 'Reunión mensual este 4 de Mayo a las 8:30 a.m., siempre los mejores!';
+  }
+
+  load() {
+    if (this.plt.is('cordova')) {
+      this.imeiSer.getImeiN().then((imei) => {
+        this.usuario.usuario(imei).subscribe((use: any) => {
+          this.user = use;
+          this.idFerrum = use.idFerrum;
+          this.clientes.clientes(this.idFerrum).subscribe((cli: any) => {
+            if (cli.length !== 0) {
+              this.client = cli;
+              this.msg = 'ACTIVO';
+              this.storage.set('clientes', JSON.stringify(cli));
+            } else {
+              this.msg = 'Sin Clientes';
+            }
+          });
+        });
       });
-    });
-    this.current = 'Charly Ramírez';
-    this.message = 'Lorem lipsum Lorem lipsum Lorem lipsum Lorem lipsum Lorem lipsum Lorem lipsum Lorem lipsumLorem lipsum Lorem lipsum Lorem lipsum Lorem lipsum Lorem lipsum Lorem lipsum Lorem lipsum';
+    } else {
+      // this.imei = 359270078018344;
+      this.imei = 123456;
+      this.usuario.usuario(this.imei).subscribe((use: any) => {
+        this.user = use;
+        this.idFerrum = use.idFerrum;
+        this.clientes.clientes(this.idFerrum).subscribe((cli: any) => {
+          if (cli.length !== 0) {
+            this.client = cli;
+            this.msg = 'ACTIVO';
+            this.storage.set('clientes', JSON.stringify(cli));
+          } else {
+            this.msg = 'Sin Clientes';
+          }
+        });
+      });
+    }
+  }
+
+  doRefresh(event: any) {
+    // Eliminar base de datos y actualizar
+    this.storage.remove('clientes');
+    this.load();
+
+    setTimeout(() => {
+      console.log('Se actualizo');
+      event.target.complete();
+    }, 2000);
   }
 
   irA(cli: any) {
