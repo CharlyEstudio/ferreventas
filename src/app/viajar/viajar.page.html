@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title class="titulo-comercio-viaje">Viajar a {{comercio}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="secondary" *ngIf="lat > 0">
+
+    <!--<agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
+        <agm-marker [latitude]="lat" [longitude]="lng" (markerClick)="clickMarker()">
+            <agm-info-window>
+                <img [src]="'http://177.244.55.122/assets/clientes/' + img" width="50%">
+                <p class="sin-p"># {{numero}} {{nombre}}</p>
+                <p class="sin-p">Domicilio: </p>
+                <p class="sin-p">{{domicilio}}</p>
+                <p class="sin-p">Saldo: {{saldo | currency}}</p>
+                <p class="sin-p">Ultima Compra: {{ultima | date: 'mm-dd-YYYY'}}</p>
+                <p class="sin-p">Email Registrado: {{email}}</p>
+            </agm-info-window>
+        </agm-marker>
+    </agm-map>-->
+
+</ion-content>
+
+<ion-content text-center color="secondary" *ngIf="lat === 0">
+
+    <h1 class="sin-datos-viaje">Sin datos de viaje</h1>
+
+</ion-content>

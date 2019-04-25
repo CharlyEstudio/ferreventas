@@ -9,6 +9,17 @@
 
 <ion-content color="secondary">
 
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="danger">
+            <ion-icon name="locate"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="start">
+            <ion-fab-button (click)="irA(dato)">
+                Ir
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+
     <ion-card class="welcome-card" color="primary">
         <ion-img [src]="'http://177.244.55.122/assets/clientes/' + dato.img"></ion-img>
         <ion-card-header>

@@ -1,12 +1,12 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
-            <ion-icon color="success" name="disc" *ngIf="ws.socketStatus"></ion-icon>
-            OnLine
+            ServerOn
+            <ion-icon color="success" name="disc"></ion-icon>
         </ion-buttons>
         <ion-buttons padding slot="end" *ngIf="!ws.socketStatus">
-            <ion-icon color="danger" name="disc" *ngIf="!ws.socketStatus"></ion-icon>
-            OffLine
+            ServerOff
+            <ion-icon color="danger" name="disc"></ion-icon>
         </ion-buttons>
         <ion-title>
             Clientes
@@ -15,7 +15,7 @@
 </ion-header>
 
 <ion-content color="secondary">
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh(true, $event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslice para Actualizar" refreshingSpinner="circles" refreshingText="Actualizando...">
         </ion-refresher-content>
     </ion-refresher>
@@ -37,11 +37,13 @@
                 <ion-badge color="success" *ngIf="client.length !== 0">{{ msg }}</ion-badge>
             </ion-label>
         </ion-list-header>
-        <ion-item color="secondary" *ngFor="let cli of client">
+    </ion-list>
+    <ion-virtual-scroll [items]="client">
+        <ion-item color="secondary" *virtualItem="let cli">
             <ion-icon slot="start" color="success" name="contact"></ion-icon>
             <ion-label class="cliente-nombre" (click)="irA(cli)"># {{ cli.numero }} {{ cli.nombre }}</ion-label>
         </ion-item>
-    </ion-list>
+    </ion-virtual-scroll>
     <ion-list lines="none">
         <ion-list-header color="secondary">
             <ion-label>Utilidades</ion-label>

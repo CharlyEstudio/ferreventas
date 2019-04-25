@@ -5,6 +5,8 @@ import { Storage } from '@ionic/storage';
 
 // Servicios
 import { GeoService } from '../services/geo.service';
+import { NetworkService } from '../services/network.service';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-tab2',
@@ -13,23 +15,21 @@ import { GeoService } from '../services/geo.service';
 })
 export class Tab2Page {
   clientes: any[] = [];
-  title = 'My first AGM project';
   lat = 0;
   lng = 0;
 
   constructor(
-    private storage: Storage,
-    private geo: GeoService
+    private usuario: UsuarioService,
+    private geo: GeoService,
+    private net: NetworkService
   ) {
-    /*this.geo.ubicacionGPS().then((coords: any) => {
-      this.lat = coords.coords.latitude;
-      this.lng = coords.coords.longitude;
-    });*/
-    this.storage.get('clientes').then(stored => {
-      this.clientes = JSON.parse(stored);
+    this.usuario.getLocalData('cliente').then((cli: any) => {
+      this.clientes = cli;
       const indice = this.clientes.length / 2;
       this.lat = this.clientes[indice].lat;
       this.lng = this.clientes[indice].lng;
     });
   }
+
+  status() {}
 }
