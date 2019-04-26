@@ -7,7 +7,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content color="secondary" *ngIf="lat > 0">
+<ion-content color="secondary" *ngIf="latEscucha > 0">
 
     <ion-fab vertical="top" horizontal="end" edge slot="fixed">
         <ion-fab-button color="danger">
@@ -20,24 +20,16 @@
         </ion-fab-list>
     </ion-fab>
 
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [minZoom]="10" (mapClick)="agregarMarker($event)">
+    <agm-map [latitude]="latEscucha" [longitude]="lngEscucha" [zoom]="19" [minZoom]="19" (mapClick)="agregarMarker($event)">
+        <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa" [panel]="setPanel()"></agm-direction>
         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-        <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa">
-            <agm-info-window>
-                <img [src]="'http://177.244.55.122/assets/clientes/' + img" width="50%">
-                <p class="sin-p"># {{numero}} {{nombre}}</p>
-                <p class="sin-p">Domicilio: </p>
-                <p class="sin-p">{{domicilio}}</p>
-                <p class="sin-p">Saldo: {{saldo | currency}}</p>
-                <p class="sin-p">Ultima Compra: {{ultima | date: 'mm-dd-YYYY'}}</p>
-                <p class="sin-p">Email Registrado: {{email}}</p>
-            </agm-info-window>
-        </agm-direction>
     </agm-map>
+
+    <div id="myPanel"></div>
 
 </ion-content>
 
-<ion-content text-center color="secondary" *ngIf="lat === 0">
+<ion-content text-center color="secondary" *ngIf="latEscucha === 0">
 
     <h1 class="sin-datos-viaje">Sin datos de viaje</h1>
 

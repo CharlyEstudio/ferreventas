@@ -4,9 +4,8 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 // Servicios
-import { GeoService } from '../services/geo.service';
-import { NetworkService } from '../services/network.service';
 import { UsuarioService } from '../services/usuario.service';
+import { WsService } from '../services/ws.service';
 
 @Component({
   selector: 'app-tab2',
@@ -17,19 +16,23 @@ export class Tab2Page {
   clientes: any[] = [];
   lat = 0;
   lng = 0;
+  estado = true;
+  panControl = true;
+  mapTypeControl = true;
 
   constructor(
     private usuario: UsuarioService,
-    private geo: GeoService,
-    private net: NetworkService
+    public ws: WsService
   ) {
     this.usuario.getLocalData('cliente').then((cli: any) => {
       this.clientes = cli;
-      const indice = this.clientes.length / 2;
+      const indice = Math.round(this.clientes.length / 2);
       this.lat = this.clientes[indice].lat;
       this.lng = this.clientes[indice].lng;
     });
   }
 
-  status() {}
+  doSomethingWithTheMapInstance(event: any) {
+    console.log(event);
+  }
 }

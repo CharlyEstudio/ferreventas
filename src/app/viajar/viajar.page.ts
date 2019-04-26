@@ -25,6 +25,8 @@ export class ViajarPage implements OnInit {
   comercio: string;
   lat = 0;
   lng = 0;
+  latEscucha = 0;
+  lngEscucha = 0;
   asesor: number;
   img: string;
   clienteid: number;
@@ -58,21 +60,23 @@ export class ViajarPage implements OnInit {
     private net: NetworkService
   ) {
     this.dato = JSON.parse(this.router.snapshot.paramMap.get('data'));
+
+    // Ubicación de Escucha
+    this.geo.ubicacionGPS().subscribe((resp: any) => {
+      this.latEscucha = resp.coords.latitude;
+      this.lngEscucha = resp.coords.longitude;
+      const msg = this.latEscucha + '/' + this.lngEscucha;
+      this.mensaje(msg);
+
+      // Ruta
+      this.origin.lat = this.latEscucha;
+      this.origin.lng = this.lngEscucha;
+    });
   }
 
   ngOnInit() {
     this.comercio = this.dato.comercio;
-    this.geo.ubicacionGPS().subscribe((coords: any) => {
-      this.lat = coords.coords.latitude;
-      this.lng = coords.coords.longitude;
-      this.origin.lat = this.lat;
-      this.origin.lng = this.lng;
-      this.destiny.lat = this.dato.lat;
-      this.destiny.lng = this.dato.lng;
-    });
-
     this.asesor = this.dato.asesor;
-
     // Info Cliente
     this.img = this.dato.img;
     this.clienteid = this.dato.clienteid;
@@ -84,9 +88,20 @@ export class ViajarPage implements OnInit {
     this.disponible = this.dato.limite - this.dato.saldo;
     this.ultima = this.dato.ultima;
     this.email = this.dato.email;
+
+    // Ruta
+    this.destiny.lat = this.dato.lat;
+    this.destiny.lng = this.dato.lng;
+  }
+
+  setPanel() {
+    return document.querySelector('#myPanel');
+    //console.log(event);
   }
 
   async agregarMarker(event: any) {
+    this.lat = event.coords.lat;
+    this.lng = event.coords.lng;
     const msg = 'Nuevas Coordenadas:\n' +
                 event.coords.lat +
                 '\n' + event.coords.lat
@@ -216,6 +231,15 @@ export class ViajarPage implements OnInit {
       ]
     });
     toast.present();
+  }
+
+  mensaje(msg: any) {
+    const toast = this.toastCtl.create({
+      message: msg,
+      duration: 1000,
+      position: 'bottom'
+    });
+    toast.then((to) => to.present());
   }
 
 }
