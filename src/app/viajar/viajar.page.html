@@ -9,8 +9,20 @@
 
 <ion-content color="secondary" *ngIf="lat > 0">
 
-    <!--<agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
-        <agm-marker [latitude]="lat" [longitude]="lng" (markerClick)="clickMarker()">
+    <ion-fab vertical="top" horizontal="end" edge slot="fixed">
+        <ion-fab-button color="danger">
+            <ion-icon name="settings"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="start">
+            <ion-fab-button (click)="info()">
+                <ion-icon name="help"></ion-icon>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="18" [minZoom]="10" (mapClick)="agregarMarker($event)">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa">
             <agm-info-window>
                 <img [src]="'http://177.244.55.122/assets/clientes/' + img" width="50%">
                 <p class="sin-p"># {{numero}} {{nombre}}</p>
@@ -20,8 +32,8 @@
                 <p class="sin-p">Ultima Compra: {{ultima | date: 'mm-dd-YYYY'}}</p>
                 <p class="sin-p">Email Registrado: {{email}}</p>
             </agm-info-window>
-        </agm-marker>
-    </agm-map>-->
+        </agm-direction>
+    </agm-map>
 
 </ion-content>
 

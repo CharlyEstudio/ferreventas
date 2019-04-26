@@ -46,6 +46,13 @@ export class UsuarioService {
     }
   }
 
+  public agregarMarker(vendedor: any, data: any): any {
+    return this.http.post(`${API_URL_PHP}/markers.php?opcion=1`,
+      { asesor: vendedor, datos: data},
+      {headers: {'content-Type': 'application/x-www-form-urlencoded'}
+    });
+  }
+
   getLocalData(key: any) {
     return this.storage.get(`${API_STORAGE_KEY}-${key}`);
   }

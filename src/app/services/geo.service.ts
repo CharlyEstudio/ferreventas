@@ -13,6 +13,7 @@ export class GeoService {
   ) { }
 
   ubicacionGPS() {
-    return this.geolocation.getCurrentPosition();
+    // return this.geolocation.getCurrentPosition();
+    return this.geolocation.watchPosition();
   }
 }

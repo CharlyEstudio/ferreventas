@@ -9,6 +9,7 @@ import { ViajarPage } from './viajar.page';
 
 // Maps
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 
 const routes: Routes = [
   {
@@ -25,7 +26,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyApgyf9zpctTzuckqSRRYiA9wgrVKeWGFY'
-    })
+    }),
+    AgmDirectionModule
   ],
   declarations: [ViajarPage]
 })
