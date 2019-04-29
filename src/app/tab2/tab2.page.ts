@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 
-// Plugins
-import { Storage } from '@ionic/storage';
-
 // Servicios
 import { UsuarioService } from '../services/usuario.service';
 import { WsService } from '../services/ws.service';

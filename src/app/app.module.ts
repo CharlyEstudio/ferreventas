@@ -20,6 +20,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { Uid } from '@ionic-native/uid/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +47,8 @@ import { AppComponent } from './app.component';
     AndroidPermissions,
     Uid,
     Geolocation,
-    Network
+    Network,
+    TextToSpeech
   ],
   bootstrap: [AppComponent]
 })

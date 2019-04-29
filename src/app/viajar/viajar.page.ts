@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
+// Plugins
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+
 // Servicios
 import { GeoService } from '../services/geo.service';
 import { UsuarioService } from '../services/usuario.service';
@@ -25,6 +28,8 @@ export class ViajarPage implements OnInit {
   comercio: string;
   lat = 0;
   lng = 0;
+  latMarker = 0;
+  lngMarker = 0;
   latEscucha = 0;
   lngEscucha = 0;
   asesor: number;
@@ -40,6 +45,7 @@ export class ViajarPage implements OnInit {
   email: string;
 
   // Datos de Direction
+  zoom = 9.7;
   alternativa = true;
   origin = {
     lat: 0,
@@ -51,13 +57,27 @@ export class ViajarPage implements OnInit {
     lng: 0
   };
 
+  public renderOptions = {
+    suppressMarkers: true,
+  };
+
+  public markerOptions = {
+      origin: {
+          label: 'Asesor'
+      },
+      destination: {
+          label: 'Cliente'
+      },
+  };
+
   constructor(
     private router: ActivatedRoute,
     private toastCtl: ToastController,
     private geo: GeoService,
     private storage: Storage,
     private usuario: UsuarioService,
-    private net: NetworkService
+    private net: NetworkService,
+    private tts: TextToSpeech
   ) {
     this.dato = JSON.parse(this.router.snapshot.paramMap.get('data'));
 
@@ -66,7 +86,7 @@ export class ViajarPage implements OnInit {
       this.latEscucha = resp.coords.latitude;
       this.lngEscucha = resp.coords.longitude;
       const msg = this.latEscucha + '/' + this.lngEscucha;
-      this.mensaje(msg);
+      // this.mensaje(msg);
 
       // Ruta
       this.origin.lat = this.latEscucha;
@@ -94,14 +114,31 @@ export class ViajarPage implements OnInit {
     this.destiny.lng = this.dato.lng;
   }
 
+  iniciar() {
+    this.zoom = 19;
+    this.lat = this.origin.lat;
+    this.lng = this.origin.lng;
+  }
+
   setPanel() {
     return document.querySelector('#myPanel');
-    //console.log(event);
+  }
+
+  // Para ver la respuesta, aquí se ven los pasos a seguir
+  // Metodo en AGM_DIRECTION: (onResponse)="getStatus($event)"
+  getStatus(event: any) {
+    console.log(event);
+  }
+
+  hablar() {
+    this.tts.speak('Hello World')
+      .then(() => console.log('success'))
+      .catch((reason: any) => console.log(reason));
   }
 
   async agregarMarker(event: any) {
-    this.lat = event.coords.lat;
-    this.lng = event.coords.lng;
+    this.latMarker = event.coords.lat;
+    this.lngMarker = event.coords.lng;
     const msg = 'Nuevas Coordenadas:\n' +
                 event.coords.lat +
                 '\n' + event.coords.lat
@@ -188,6 +225,8 @@ export class ViajarPage implements OnInit {
           text: 'No',
           role: 'cancel',
           handler: () => {
+            this.lat = 0;
+            this.lng = 0;
             const msg = 'Envio Cancelado';
             const toast = this.toastCtl.create({
               header: 'Información del Cliente',

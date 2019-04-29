@@ -1,11 +1,97 @@
 <ion-header>
     <ion-toolbar color="primary">
+        <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
+            ServerOn
+            <ion-icon color="success" name="disc"></ion-icon>
+        </ion-buttons>
+        <ion-buttons padding slot="end" *ngIf="!ws.socketStatus">
+            ServerOff
+            <ion-icon color="danger" name="disc"></ion-icon>
+        </ion-buttons>
         <ion-title>
             Pedidos
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding text-center color="primary">
-    <p>Levantar Pedido</p>
+<ion-content text-center color="primary">
+    <h1>Cálculo de Cobro</h1>
+
+    <ion-item color="primary">
+        <ion-label position="floating">Ingrese el importe aquí</ion-label>
+        <ion-input #input type="number" value="0" (keyup)="importe(input.value)"></ion-input>
+    </ion-item>
+
+    <ion-list>
+        <ion-radio-group>
+            <ion-list-header color="secondary">
+                <ion-item-divider color="secondary">
+                    <ion-label>
+                        TIPO DE TARJETA
+                    </ion-label>
+                </ion-item-divider>
+            </ion-list-header>
+
+            <ion-item>
+                <ion-label>Débito</ion-label>
+                <ion-radio #debito slot="start" (ionSelect)="tipoTarjeta(debito.value)" value="debito" [disabled]="radioDis"></ion-radio>
+                <!--1.45% MAS IVA-->
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Crédito</ion-label>
+                <ion-radio #credito slot="start" (ionSelect)="tipoTarjeta(credito.value)" value="credito" [disabled]="radioDis"></ion-radio>
+                <!--1.25% MAS IVA-->
+            </ion-item>
+        </ion-radio-group>
+    </ion-list>
+
+    <ion-list>
+        <ion-list-header color="secondary">
+            <ion-item-divider color="secondary">
+                <ion-label>
+                    PROMOCION SIN INTERESES
+                </ion-label>
+            </ion-item-divider>
+        </ion-list-header>
+
+        <ion-item>
+            <ion-label>Meses</ion-label>
+            <ion-select #meses placeholder="Seleccione uno" [disabled]="disabled" (ionChange)="promoMes(meses.value)">
+                <ion-select-option value="n/a">Sin Promoción</ion-select-option>
+                <!--1.25% MAS IVA-->
+                <ion-select-option value="3">3 MESES</ion-select-option>
+                <!--3% MAS IVA-->
+                <ion-select-option value="6">6 MESES</ion-select-option>
+                <!--5.8% MAS IVA-->
+                <ion-select-option value="9">9 MESES</ion-select-option>
+                <!--8.7% MAS IVA-->
+                <ion-select-option value="12">12 MESES</ion-select-option>
+                <!--11.7% MAS IVA-->
+                <ion-select-option value="18">18 MESES</ion-select-option>
+                <!--15% MAS IVA-->
+            </ion-select>
+        </ion-item>
+
+    </ion-list>
+
+    <ion-card text-center color="light">
+        <h1>{{imporFinal | currency}}</h1>
+        <ion-grid *ngIf="desgloce.length > 0">
+            <ion-row *ngFor="let des of desgloce">
+                <ion-col size="6">
+                    {{ des.pago }}
+                </ion-col>
+                <ion-col size="6">
+                    {{ des.importe | currency }}
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <p *ngIf="desgloce.length > 0">La comisión por manejo de {{ promo }} Meses es del {{ porcenFinal | percent: '0.2' }} + I.V.A.</p>
+        <p *ngIf="tipoPago === 'debito'">La comisión por pago en Débito es del {{ porcenFinal | percent: '0.2' }} + I.V.A.</p>
+    </ion-card>
+
+    <ion-card text-center color="danger">
+        <p>Recuerda que tenemos hasta 18 meses sin intereses para pagar.</p>
+    </ion-card>
 </ion-content>

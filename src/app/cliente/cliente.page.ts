@@ -24,4 +24,13 @@ export class ClientePage implements OnInit {
     this.route.navigate(['viajar', JSON.stringify(dato)]);
   }
 
+  llamar(dato: any) {
+    console.log('Estoy llamando...');
+    console.log(dato);
+  }
+
+  enviarComentario() {
+    this.route.navigate(['/modal', JSON.stringify(this.dato)]);
+  }
+
 }

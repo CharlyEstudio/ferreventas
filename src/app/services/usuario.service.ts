@@ -60,4 +60,68 @@ export class UsuarioService {
   setLocalData(key: any, data: any) {
     this.storage.set(`${API_STORAGE_KEY}-${key}`, data);
   }
+
+  getDìa() {
+    const h = new Date();
+
+    let dia;
+
+    if (h.getDate() < 10) {
+      dia = '0' + h.getDate();
+    } else {
+      dia = h.getDate();
+    }
+
+    let mes;
+
+    if ((h.getMonth() + 1) < 10) {
+      mes = '0' + (h.getMonth() + 1);
+    } else {
+      mes = h.getMonth() + 1;
+    }
+
+    const anio = h.getFullYear();
+
+    const fecha = anio + '-' + mes + '-' + dia;
+    return fecha;
+  }
+
+  getHora() {
+    const h = new Date();
+
+    let sec;
+
+    if (h.getSeconds() < 10) {
+      sec = '0' + h.getSeconds();
+    } else {
+      sec = h.getSeconds();
+    }
+
+    let min;
+
+    if (h.getMinutes() < 10) {
+      min = '0' + h.getMinutes();
+    } else {
+      min = h.getMinutes();
+    }
+
+    const hor = h.getHours();
+
+    const hora = hor + ':' + min + ':' + sec;
+    return hora;
+  }
+
+  enviarComentario(num: any, ase: any, acc: any, com: any, fec: any, hor: any) {
+    const url = 'http://177.244.55.122/api/visitas.php?opcion=1';
+    return this.http.post(url, {
+      numero: num,
+      asesor: ase,
+      accion: acc,
+      comentario: com,
+      fecha: fec,
+      hora: hor
+    }, {
+      headers: {'content-Type': 'application/x-www-form-urlencoded'}
+    });
+  }
 }

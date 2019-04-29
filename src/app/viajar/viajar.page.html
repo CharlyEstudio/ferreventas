@@ -20,12 +20,16 @@
         </ion-fab-list>
     </ion-fab>
 
-    <agm-map [latitude]="latEscucha" [longitude]="lngEscucha" [zoom]="19" [minZoom]="19" (mapClick)="agregarMarker($event)">
-        <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa" [panel]="setPanel()"></agm-direction>
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [minZoom]="zoom" (mapClick)="agregarMarker($event)">
+        <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa" [panel]="setPanel()" (onResponse)="getStatus($event)" [renderOptions]="renderOptions" [markerOptions]="markerOptions"></agm-direction>
+        <agm-marker *ngIf="latMarker > 0" [latitude]="latMarker" [longitude]="lngMarker"></agm-marker>
     </agm-map>
 
-    <div id="myPanel"></div>
+    <ion-button expand="block" fill="clear" (click)="iniciar()">
+        <ion-icon name="play" color="light"></ion-icon>
+    </ion-button>
+
+    <ion-card color="light" id="myPanel" style="height: 100%;"></ion-card>
 
 </ion-content>
 

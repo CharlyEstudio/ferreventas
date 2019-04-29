@@ -39,9 +39,9 @@
         </ion-list-header>
     </ion-list>
     <ion-virtual-scroll [items]="client">
-        <ion-item color="secondary" *virtualItem="let cli">
+        <ion-item color="secondary" *virtualItem="let cli" (click)="irA(cli)">
             <ion-icon slot="start" color="success" name="contact"></ion-icon>
-            <ion-label class="cliente-nombre" (click)="irA(cli)"># {{ cli.numero }} {{ cli.nombre }}</ion-label>
+            <ion-label class="cliente-nombre"># {{ cli.numero }} {{ cli.nombre }}</ion-label>
         </ion-item>
     </ion-virtual-scroll>
     <ion-list lines="none">

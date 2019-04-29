@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Enviar Comentario</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-item>
+        <ion-label position="floating">Nùmero de Cliente</ion-label>
+        <ion-input type="number" [value]="dato.numero"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label position="floating">Nombre de Cliente</ion-label>
+        <ion-input type="text" [value]="dato.nombre"></ion-input>
+    </ion-item>
+
+    <ion-list>
+        <ion-radio-group>
+            <ion-list-header color="secondary">
+                <ion-item-divider color="secondary">
+                    <ion-label>
+                        ¿Que proceso se le realizó al cliente?
+                    </ion-label>
+                </ion-item-divider>
+            </ion-list-header>
+
+            <ion-item>
+                <ion-label>Venta</ion-label>
+                <ion-radio #venta slot="start" (ionSelect)="accion(venta.value)" value="venta"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Cobro</ion-label>
+                <ion-radio #cobro slot="start" (ionSelect)="accion(cobro.value)" value="cobro"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Ambas</ion-label>
+                <ion-radio #ambas slot="start" (ionSelect)="accion(ambas.value)" value="ambas"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Ninguna</ion-label>
+                <ion-radio #niguna slot="start" (ionSelect)="accion(niguna.value)" value="ninguna"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+    </ion-list>
+
+    <ion-item>
+        <ion-label position="floating">Breve comentario aquí</ion-label>
+        <ion-textarea #comentario></ion-textarea>
+    </ion-item>
+
+    <ion-button color="danger" size="large" expand="full" (click)="enviar(comentario.value)">Enviar Comentario</ion-button>
+
+</ion-content>
