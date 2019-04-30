@@ -19,7 +19,7 @@
 
     <ion-item color="primary">
         <ion-label position="floating">Ingrese el importe aquí</ion-label>
-        <ion-input #input type="number" value="0" (keyup)="importe(input.value)"></ion-input>
+        <ion-input #input type="number" (keyup)="importe(input.value)"></ion-input>
     </ion-item>
 
     <ion-list>
@@ -41,6 +41,30 @@
             <ion-item>
                 <ion-label>Crédito</ion-label>
                 <ion-radio #credito slot="start" (ionSelect)="tipoTarjeta(credito.value)" value="credito" [disabled]="radioDis"></ion-radio>
+                <!--1.25% MAS IVA-->
+            </ion-item>
+        </ion-radio-group>
+    </ion-list>
+
+    <ion-list>
+        <ion-radio-group>
+            <ion-list-header color="secondary">
+                <ion-item-divider color="secondary">
+                    <ion-label>
+                        TIPO DE PAGO
+                    </ion-label>
+                </ion-item-divider>
+            </ion-list-header>
+
+            <ion-item>
+                <ion-label>Abono</ion-label>
+                <ion-radio #abono slot="start" (ionSelect)="tipoAbono(abono.value)" value="abono" [disabled]="radioDis"></ion-radio>
+                <!--1.45% MAS IVA-->
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Completo</ion-label>
+                <ion-radio #completo slot="start" (ionSelect)="tipoAbono(completo.value)" value="completo" [disabled]="radioDis"></ion-radio>
                 <!--1.25% MAS IVA-->
             </ion-item>
         </ion-radio-group>
@@ -87,11 +111,10 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-        <p *ngIf="desgloce.length > 0">La comisión por manejo de {{ promo }} Meses es del {{ porcenFinal | percent: '0.2' }} + I.V.A.</p>
-        <p *ngIf="tipoPago === 'debito'">La comisión por pago en Débito es del {{ porcenFinal | percent: '0.2' }} + I.V.A.</p>
+        <p>El importe final es ya con la comisión por manejo de cuenta. Recuerda que tenemos hasta 18 meses sin intereses para pagar.</p>
+        <!--<p *ngIf="desgloce.length > 0">La comisión por manejo de {{ promo }} Meses es del {{ porcenFinal | percent: '0.2' }} + I.V.A.</p>
+        <p *ngIf="tipoPago === 'debito'">La comisión por pago en Débito es del {{ porcenFinal | percent: '0.2' }} + I.V.A.</p>-->
     </ion-card>
 
-    <ion-card text-center color="danger">
-        <p>Recuerda que tenemos hasta 18 meses sin intereses para pagar.</p>
-    </ion-card>
+    <ion-button expand="full" size="large" color="danger" (click)="enviarCobro()" *ngIf="porcenFinal > 0">Enviar Cobro</ion-button>
 </ion-content>

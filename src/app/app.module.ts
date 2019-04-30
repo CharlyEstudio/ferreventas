@@ -22,6 +22,7 @@ import { Uid } from '@ionic-native/uid/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -50,6 +51,7 @@ import { AppComponent } from './app.component';
     Geolocation,
     Network,
     CallNumber,
+    BarcodeScanner,
     TextToSpeech
   ],
   bootstrap: [AppComponent]

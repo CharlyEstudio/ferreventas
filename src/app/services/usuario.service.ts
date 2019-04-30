@@ -124,4 +124,13 @@ export class UsuarioService {
       headers: {'content-Type': 'application/x-www-form-urlencoded'}
     });
   }
+
+  enviarPago(data: any) {
+    const url = 'http://177.244.55.122/api/visitas.php?opcion=2';
+    return this.http.post(url, {
+      datos: data
+    }, {
+      headers: {'content-Type': 'application/x-www-form-urlencoded'}
+    });
+  }
 }
