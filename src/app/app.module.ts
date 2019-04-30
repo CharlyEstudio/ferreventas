@@ -21,6 +21,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { Uid } from '@ionic-native/uid/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -48,6 +49,7 @@ import { AppComponent } from './app.component';
     Uid,
     Geolocation,
     Network,
+    CallNumber,
     TextToSpeech
   ],
   bootstrap: [AppComponent]
