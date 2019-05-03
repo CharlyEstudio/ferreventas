@@ -46,6 +46,201 @@ export class UsuarioService {
     }
   }
 
+  porBajar(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('porbajar'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=1&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('porbajar', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  porSurtir(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('porsurtir'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=2&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('porsurtir', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  facturado(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('facturado'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=3&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('facturado', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  cancelado(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('cancelado'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=4&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('cancelado', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  pedidosTotales(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('total-pedidos'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=5&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('total-pedidos', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  diaVisita(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('dia-visita'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=6&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('dia-visita', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  pedidosDia(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('pedidos-dia'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=12&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('pedidos-dia', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  pedDiaDiferente(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('pedidos-dia-diferente'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=11&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('pedidos-dia-diferente', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  carteraTotal(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('cartera-total'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=22&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('cartera-total', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  carteraVencida(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('cartera-vencida'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=8&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('cartera-vencida', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  carteraDiaSana(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('cartera-dia-sana'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=23&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('cartera-dia-sana', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  carteraDiaVencida(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('cartera-dia-vencida'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=9&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('cartera-dia-vencida', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  cobroDia(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('cobro-dia'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=10&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('cobro-dia', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  ventaMensual(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('venta-mes'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=7&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('venta-mes', res);
+          return res;
+        })
+      );
+    }
+  }
+
+  ventaMesAnterior(forceRefresh: boolean, idFerrum: any) {
+    if (this.net.getNetSatus() === ConnectionStatus.Offline || !forceRefresh) {
+      return from(this.getLocalData('venta-mes-anterior'));
+    } else {
+      return this.http.get(`${API_URL_PHP}/asesores.php?opcion=13&perid=${idFerrum}`).pipe(
+        map((res: any) => {
+          this.setLocalData('venta-mes-anterior', res);
+          return res;
+        })
+      );
+    }
+  }
+
   public agregarMarker(vendedor: any, data: any): any {
     return this.http.post(`${API_URL_PHP}/markers.php?opcion=1`,
       { asesor: vendedor, datos: data},

@@ -49,7 +49,6 @@ export class Tab1Page implements OnInit {
     if (this.plt.is('cordova')) {
       this.imeiSer.getImeiN().then((imei) => {
         this.usuario.usuario(refresh, imei).subscribe(((use: any) => {
-          console.log(use.idFerrum);
           this.usuario.clientes(refresh, use.idFerrum).subscribe((cli: any) => {
             if (cli.length !== 0) {
               this.client = cli;

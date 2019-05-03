@@ -1,0 +1,170 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
+          ServerOn
+          <ion-icon color="success" name="disc"></ion-icon>
+      </ion-buttons>
+      <ion-buttons padding slot="end" *ngIf="!ws.socketStatus">
+          ServerOff
+          <ion-icon color="danger" name="disc"></ion-icon>
+      </ion-buttons>
+    <ion-title>Tablero</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-refresher slot="fixed" (ionRefresh)="obtenerInfo(true, $event)">
+      <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslice para Actualizar" refreshingSpinner="circles" refreshingText="Actualizando...">
+      </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-card class="welcome-card" color="light">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-card-title>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6" class="titulo-pedido">
+                  Bajar
+                </ion-col>
+                <ion-col text-right size="6" class="cantidad">
+                  {{ porBajar }}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-title>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card class="welcome-card" color="dark">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6" class="titulo-pedido">
+                  Surtir
+                </ion-col>
+                <ion-col text-right size="6" class="cantidad">
+                  {{ porSurtir }}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-title>
+        </ion-card-header>
+    </ion-card>
+
+    <ion-card class="welcome-card" color="success">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-card-title>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6" class="titulo-pedido">
+                  Facturados
+                </ion-col>
+                <ion-col text-right size="6" class="cantidad">
+                  {{ facturado }}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-title>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card class="welcome-card" color="danger">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-card-title>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6" class="titulo-pedido">
+                  Cancelados
+                </ion-col>
+                <ion-col text-right size="6" class="cantidad">
+                  {{ cancelado }}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-title>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-list lines="none">
+        <ion-list-header color="">
+            <ion-label>Pedidos vs Clientes</ion-label>
+        </ion-list-header>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="barcode"></ion-icon>
+            <ion-label>Total</ion-label>
+            <ion-badge color="dark" slot="end">{{ totalPed }}</ion-badge>
+            <ion-badge color="dark" slot="end">{{ totalPedImpo | currency }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="people"></ion-icon>
+            <ion-label>Clientes Día</ion-label>
+            <ion-badge color="danger" slot="end">{{ diaVis }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="checkmark-circle-outline"></ion-icon>
+            <ion-label>Pedidos Día</ion-label>
+            <ion-badge color="danger" slot="end">{{ pedidosDia }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="done-all"></ion-icon>
+            <ion-label>Pedidos Diferente Día</ion-label>
+            <ion-badge color="danger" slot="end">{{ pedidosDiaDif }}</ion-badge>
+        </ion-item>
+    </ion-list>
+
+    <ion-list lines="none">
+        <ion-list-header color="">
+            <ion-label>Ventas & Crédito</ion-label>
+        </ion-list-header>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="briefcase"></ion-icon>
+            <ion-label>Cartera Total</ion-label>
+            <ion-badge color="danger" slot="end">{{ carteraTot | currency }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="close-circle-outline"></ion-icon>
+            <ion-label>Cartera Vencida</ion-label>
+            <ion-badge color="danger" slot="end">{{ carteraVen | currency }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="cloud-upload"></ion-icon>
+            <ion-label>Cartera Día Sana</ion-label>
+            <ion-badge color="danger" slot="end">{{ carteraDiaSana | currency }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="cloud-download"></ion-icon>
+            <ion-label>Cartera Día Vencida</ion-label>
+            <ion-badge color="danger" slot="end">{{ carteraDiaVenc | currency }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="calculator"></ion-icon>
+            <ion-label>Cobro Día</ion-label>
+            <ion-badge color="danger" slot="end">{{ cobroDia | currency }}</ion-badge>
+        </ion-item>
+    </ion-list>
+
+    <ion-list lines="none">
+        <ion-list-header color="">
+            <ion-label>Actual vs Anterior {{ fecha | date:'yyyy' }}</ion-label>
+        </ion-list-header>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="return-right"></ion-icon>
+            <ion-label>Mes Actual</ion-label>
+            <ion-badge color="danger" slot="end">{{ ventaMes | currency }}</ion-badge>
+        </ion-item>
+        <ion-item color="">
+            <ion-icon slot="start" color="medium" name="return-left"></ion-icon>
+            <ion-label>Mes Anterior</ion-label>
+            <ion-badge color="danger" slot="end">{{ ventaMesAnt | currency }}</ion-badge>
+        </ion-item>
+    </ion-list>
+
+</ion-content>
