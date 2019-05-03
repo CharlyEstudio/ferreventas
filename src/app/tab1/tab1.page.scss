@@ -3,6 +3,15 @@
     overflow: hidden;
 }
 
+ion-card-header.tipo-lista {
+    padding-top: 10px!important;
+    padding-bottom: 6px!important;
+}
+
+ion-card-content.lista-clientes {
+    padding-top: 0px!important;
+}
+
 ion-list {
     padding-top: 0px;
     padding-bottom: 0px;

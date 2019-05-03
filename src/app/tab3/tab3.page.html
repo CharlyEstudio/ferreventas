@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="">
         <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
             ServerOn
             <ion-icon color="success" name="disc"></ion-icon>
@@ -14,18 +14,18 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content text-center color="primary">
+<ion-content padding text-center color="">
     <h1>Cálculo de Cobro</h1>
 
-    <ion-item color="primary">
+    <ion-item color="">
         <ion-label position="floating">Ingrese el importe aquí</ion-label>
         <ion-input #input type="number" (keyup)="importe(input.value)"></ion-input>
     </ion-item>
 
     <ion-list>
         <ion-radio-group>
-            <ion-list-header color="secondary">
-                <ion-item-divider color="secondary">
+            <ion-list-header color="">
+                <ion-item-divider color="">
                     <ion-label>
                         TIPO DE TARJETA
                     </ion-label>
@@ -48,8 +48,8 @@
 
     <ion-list>
         <ion-radio-group>
-            <ion-list-header color="secondary">
-                <ion-item-divider color="secondary">
+            <ion-list-header color="">
+                <ion-item-divider color="">
                     <ion-label>
                         TIPO DE PAGO
                     </ion-label>
@@ -71,8 +71,8 @@
     </ion-list>
 
     <ion-list>
-        <ion-list-header color="secondary">
-            <ion-item-divider color="secondary">
+        <ion-list-header color="">
+            <ion-item-divider color="">
                 <ion-label>
                     PROMOCION SIN INTERESES
                 </ion-label>

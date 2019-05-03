@@ -61,7 +61,8 @@ export class Tab1Page implements OnInit {
         }));
       });
     } else {
-      this.imei = 359270078018344;
+      // this.imei = 359270078018344;
+      this.imei = 357617084506476;
       // this.imei = 123456;
       this.usuario.usuario(refresh, this.imei).subscribe((use: any) => {
         this.usuario.clientes(refresh, use.idFerrum).subscribe((cli: any) => {

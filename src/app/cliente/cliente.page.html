@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="">
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
@@ -7,7 +7,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content color="secondary">
+<ion-content color="">
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="danger">
@@ -25,7 +25,7 @@
         </ion-fab-list>
     </ion-fab>
 
-    <ion-card class="welcome-card" color="primary">
+    <ion-card class="welcome-card" color="light">
         <ion-img [src]="'http://177.244.55.122/assets/clientes/' + dato.img"></ion-img>
         <ion-card-header>
             <ion-card-subtitle>
@@ -56,49 +56,49 @@
     </ion-card>
 
     <ion-list lines="none">
-        <ion-list-header color="secondary">
+        <ion-list-header color="">
             <ion-label>Información</ion-label>
         </ion-list-header>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="list-box"></ion-icon>
             <ion-label>
                 <ion-badge color="danger" *ngIf="dato.vencidos > 0">Facturas Vencidas {{ dato.vencidos }}</ion-badge>
                 <ion-badge color="success" *ngIf="dato.vencidos === 0">Facturas Vencidas {{ dato.vencidos }}</ion-badge>
             </ion-label>
         </ion-item>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="checkmark-circle-outline"></ion-icon>
             <ion-label>
                 <ion-badge color="success" *ngIf="(dato.limite - dato.saldo) > 0">Disponible {{ (dato.limite - dato.saldo) | currency }}</ion-badge>
                 <ion-badge color="danger" *ngIf="(dato.limite - dato.saldo) <= 0">Disponible {{ (dato.limite - dato.saldo) | currency }}</ion-badge>
             </ion-label>
         </ion-item>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="code-working"></ion-icon>
             <ion-label>
                 <ion-badge color="danger">Días de Crédito {{ dato.dias }}</ion-badge>
             </ion-label>
         </ion-item>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="wallet"></ion-icon>
             <ion-label>
                 <ion-badge color="danger" *ngIf="dato.saldo > 0">Saldo {{ dato.saldo | currency }}</ion-badge>
                 <ion-badge color="success" *ngIf="dato.saldo === 0">Saldo {{ dato.saldo | currency }}</ion-badge>
             </ion-label>
         </ion-item>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="hammer"></ion-icon>
             <ion-label>
                 <ion-badge color="medium">Límite {{ dato.limite | currency }}</ion-badge>
             </ion-label>
         </ion-item>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="pricetag"></ion-icon>
             <ion-label>
                 <ion-badge color="medium">Forma de Pago {{ dato.forpag }}</ion-badge>
             </ion-label>
         </ion-item>
-        <ion-item color="secondary" (click)="enviarComentario()">
+        <ion-item color="" (click)="enviarComentario()">
             <ion-icon slot="start" color="medium" name="mail"></ion-icon>
             <ion-label>Enviar un comentario</ion-label>
         </ion-item>

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="">
         <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
             ServerOn
             <ion-icon color="success" name="disc"></ion-icon>
@@ -14,13 +14,13 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content color="secondary">
+<ion-content color="">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh(true, $event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslice para Actualizar" refreshingSpinner="circles" refreshingText="Actualizando...">
         </ion-refresher-content>
     </ion-refresher>
-    <ion-card class="welcome-card" color="primary">
-        <ion-img src="/assets/fondo1.jpg"></ion-img>
+    <ion-card class="welcome-card" color="light">
+        <ion-img src="/assets/fondo4.jpg"></ion-img>
         <ion-card-header>
             <ion-card-subtitle>Noticias del Día</ion-card-subtitle>
             <ion-card-title>Mensaje de {{ current }}</ion-card-title>
@@ -29,30 +29,37 @@
             <p>{{ message }}</p>
         </ion-card-content>
     </ion-card>
+    <ion-card class="welcome-card" color="light">
+        <ion-img src="/assets/fondo3.jpg"></ion-img>
+        <ion-card-header class="tipo-lista">
+            <ion-list lines="none">
+                <ion-list-header color="light">
+                    <ion-label>
+                        <ion-badge color="danger" *ngIf="client.length === 0">{{ msg }}</ion-badge>
+                        <ion-badge color="success" *ngIf="client.length !== 0">{{ msg }}</ion-badge>
+                    </ion-label>
+                </ion-list-header>
+            </ion-list>
+        </ion-card-header>
+        <ion-card-content class="lista-clientes">
+            <ion-virtual-scroll [items]="client">
+                <ion-item color="light" *virtualItem="let cli" (click)="irA(cli)">
+                    <ion-icon slot="start" color="success" name="contact" *ngIf="cli.visita !== 0"></ion-icon>
+                    <ion-icon slot="start" color="danger" name="contact" *ngIf="cli.visita === 0"></ion-icon>
+                    <ion-label class="cliente-nombre"># {{ cli.numero }} {{ cli.nombre }}</ion-label>
+                </ion-item>
+            </ion-virtual-scroll>
+        </ion-card-content>
+    </ion-card>
     <ion-list lines="none">
-        <ion-list-header color="secondary">
-            <ion-label>Lista
-                <br>
-                <ion-badge color="danger" *ngIf="client.length === 0">{{ msg }}</ion-badge>
-                <ion-badge color="success" *ngIf="client.length !== 0">{{ msg }}</ion-badge>
-            </ion-label>
-        </ion-list-header>
-    </ion-list>
-    <ion-virtual-scroll [items]="client">
-        <ion-item color="secondary" *virtualItem="let cli" (click)="irA(cli)">
-            <ion-icon slot="start" color="success" name="contact"></ion-icon>
-            <ion-label class="cliente-nombre"># {{ cli.numero }} {{ cli.nombre }}</ion-label>
-        </ion-item>
-    </ion-virtual-scroll>
-    <ion-list lines="none">
-        <ion-list-header color="secondary">
+        <ion-list-header color="">
             <ion-label>Utilidades</ion-label>
         </ion-list-header>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="book"></ion-icon>
             <ion-label>Manual del Asesor</ion-label>
         </ion-item>
-        <ion-item color="secondary">
+        <ion-item color="">
             <ion-icon slot="start" color="medium" name="build"></ion-icon>
             <ion-label>Reportar un problema</ion-label>
         </ion-item>

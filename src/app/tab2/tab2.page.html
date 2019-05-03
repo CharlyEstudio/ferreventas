@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="">
         <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
             ServerOn
             <ion-icon color="success" name="disc"></ion-icon>
@@ -14,19 +14,19 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content text-center color="primary" *ngIf="lat === 0 && estado">
+<ion-content text-center color="" *ngIf="lat === 0 && estado">
 
     <h1 class="sin-datos">Obteniendo los datos</h1>
 
 </ion-content>
 
-<ion-content text-center color="primary" *ngIf="!estado">
+<ion-content text-center color="" *ngIf="!estado">
 
     <h1 class="sin-datos">Estas en modo Off Line</h1>
 
 </ion-content>
 
-<ion-content color="primary" *ngIf="lat > 0">
+<ion-content color="" *ngIf="lat > 0">
 
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="8" [panControl]="panControl" [mapTypeControl]="mapTypeControl" (mapReady)="doSomethingWithTheMapInstance($event)">
         <agm-marker *ngFor="let cli of clientes" [latitude]="cli.lat" [longitude]="cli.lng"></agm-marker>
