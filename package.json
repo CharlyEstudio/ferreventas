@@ -37,6 +37,7 @@
         "agm-direction": "0.7.6",
         "call-number": "1.0.1",
         "cordova-android": "8.0.0",
+        "cordova-ios": "5.0.1",
         "cordova-plugin-android-permissions": "1.0.0",
         "cordova-plugin-geolocation": "4.0.1",
         "cordova-plugin-network-information": "2.0.1",
@@ -103,7 +104,8 @@
             "cordova-plugin-tts": {}
         },
         "platforms": [
-            "android"
+            "android",
+            "ios"
         ]
     }
 }
