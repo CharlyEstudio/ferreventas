@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -10,6 +10,7 @@ import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { GeoService } from '../services/geo.service';
 import { UsuarioService } from '../services/usuario.service';
 import { NetworkService, ConnectionStatus } from '../services/network.service';
+import { Subscription, Observable, Subscriber } from 'rxjs';
 
 const API_STORAGE_KEY = 'localData';
 const API_URL_PHP = 'http://177.244.55.122/api';
@@ -20,9 +21,15 @@ const API_URL4111 = 'http://177.244.55.122:4111';
   templateUrl: './viajar.page.html',
   styleUrls: ['./viajar.page.scss'],
 })
-export class ViajarPage implements OnInit {
+export class ViajarPage implements OnInit, OnDestroy {
 
   dato: any;
+
+  // Marcadores
+  markerDraggable = true;
+
+  // Observable del Viaje
+  observar: Subscription;
 
   // Datos del Viaje
   comercio: string;
@@ -81,16 +88,40 @@ export class ViajarPage implements OnInit {
   ) {
     this.dato = JSON.parse(this.router.snapshot.paramMap.get('data'));
 
-    // Ubicación de Escucha
-    this.geo.ubicacionGPS().subscribe((resp: any) => {
-      this.latEscucha = resp.coords.latitude;
-      this.lngEscucha = resp.coords.longitude;
-      const msg = this.latEscucha + '/' + this.lngEscucha;
-      // this.mensaje(msg);
+    this.observar = this.regresar().subscribe(
+      escuchando => {
+        this.latEscucha = escuchando.coords.latitude;
+        this.lngEscucha = escuchando.coords.longitude;
 
-      // Ruta
-      this.origin.lat = this.latEscucha;
-      this.origin.lng = this.lngEscucha;
+        // // Ruta
+        this.origin.lat = escuchando.coords.latitude;
+        this.origin.lng = escuchando.coords.longitude;
+        this.lat = escuchando.coords.latitude;
+        this.lng = escuchando.coords.longitude;
+      },
+      error => this.mensaje(error),
+      () => console.log('Salimos')
+    );
+
+    // Ubicación de Escucha
+    // this.geo.ubicacionGPS().subscribe((resp: any) => {
+    //   this.latEscucha = resp.coords.latitude;
+    //   this.lngEscucha = resp.coords.longitude;
+
+    //   // Ruta
+    //   this.origin.lat = resp.coords.latitude;
+    //   this.origin.lng = resp.coords.longitude;
+    //   this.lat = resp.coords.latitude;
+    //   this.lng = resp.coords.longitude;
+    // });
+  }
+
+  regresar(): Observable<any> {
+    return new Observable((observer: Subscriber<any>) => {
+      // Ubicación de Escucha
+      this.geo.ubicacionGPS().subscribe((resp: any) => {
+        observer.next(resp);
+      });
     });
   }
 
@@ -114,6 +145,10 @@ export class ViajarPage implements OnInit {
     this.destiny.lng = this.dato.lng;
   }
 
+  ngOnDestroy() {
+    this.observar.unsubscribe();
+  }
+
   iniciar() {
     this.zoom = 19;
     this.lat = this.origin.lat;
@@ -127,7 +162,7 @@ export class ViajarPage implements OnInit {
   // Para ver la respuesta, aquí se ven los pasos a seguir
   // Metodo en AGM_DIRECTION: (onResponse)="getStatus($event)"
   getStatus(event: any) {
-    console.log(event);
+    // console.log(event);
   }
 
   hablar() {
@@ -147,6 +182,7 @@ export class ViajarPage implements OnInit {
       header: 'Agregar GPS',
       message: msg,
       position: 'bottom',
+      color: 'danger',
       buttons: [
         {
           side: 'start',
@@ -225,8 +261,8 @@ export class ViajarPage implements OnInit {
           text: 'No',
           role: 'cancel',
           handler: () => {
-            this.lat = 0;
-            this.lng = 0;
+            this.latMarker = 0;
+            this.lngMarker = 0;
             const msg = 'Envio Cancelado';
             const toast = this.toastCtl.create({
               header: 'Información del Cliente',

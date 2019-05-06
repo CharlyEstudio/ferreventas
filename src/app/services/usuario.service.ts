@@ -307,17 +307,59 @@ export class UsuarioService {
   }
 
   enviarComentario(num: any, ase: any, acc: any, com: any, fec: any, hor: any) {
-    const url = 'http://177.244.55.122/api/visitas.php?opcion=1';
-    return this.http.post(url, {
+    const mensaje = {
       numero: num,
       asesor: ase,
       accion: acc,
       comentario: com,
       fecha: fec,
       hora: hor
-    }, {
-      headers: {'content-Type': 'application/x-www-form-urlencoded'}
-    });
+    };
+
+    if (this.net.getNetSatus() === ConnectionStatus.Offline) {
+      this.getLocalData('mensaje-visita').then((resp: any) => {
+        console.log(resp);
+        const array = [];
+        if (resp === null) {
+          array.push(mensaje);
+          this.setLocalData('mensaje-visita', array);
+        } else {
+          array.push(resp);
+          array.push(mensaje);
+          this.storage.remove('mensaje-visita');
+          this.setLocalData('mensaje-visita', array);
+        }
+      });
+    } else {
+      this.getLocalData('mensaje-visita').then((resp: any) => {
+        if (resp === null) {
+          return this.http.post(`${API_URL_PHP}/visitas.php?opcion=1`, {
+            numero: num,
+            asesor: ase,
+            accion: acc,
+            comentario: com,
+            fecha: fec,
+            hora: hor
+          }, {
+            headers: {'content-Type': 'application/x-www-form-urlencoded'}
+          });
+        } else {
+          this.storage.remove('mensaje-visita');
+          resp.forEach((element: any) => {
+            return this.http.post(`${API_URL_PHP}/visitas.php?opcion=1`, {
+              numero: element.num,
+              asesor: element.ase,
+              accion: element.acc,
+              comentario: element.com,
+              fecha: element.fec,
+              hora: element.hor
+            }, {
+              headers: {'content-Type': 'application/x-www-form-urlencoded'}
+            });
+          });
+        }
+      });
+    }
   }
 
   enviarPago(data: any) {

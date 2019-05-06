@@ -52,17 +52,17 @@ export class ModalPage implements OnInit {
           text: 'Si',
           cssClass: 'text-toast-white',
           handler: () => {
-            this.usuario.enviarComentario(this.dato.numero, this.dato.perid, this.tipo, msg, this.fecha, this.hora)
-            .subscribe((resp: any) => {
-              if (resp !== null) {
-                this.avisos('Se realizo el envio.');
-                setTimeout(() => {
-                  this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
-                }, 2000);
-              } else {
-                this.avisos('Error al enviar.');
-              }
-            });
+            this.usuario.enviarComentario(this.dato.numero, this.dato.perid, this.tipo, msg, this.fecha, this.hora);
+            // .subscribe((resp: any) => {
+            //   if (resp !== null) {
+            //     this.avisos('Se realizo el envio.');
+            //     setTimeout(() => {
+            //       this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
+            //     }, 2000);
+            //   } else {
+            //     this.avisos('Error al enviar.');
+            //   }
+            // });
           }
         }, {
           text: 'No',

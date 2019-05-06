@@ -3,7 +3,8 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title class="titulo-comercio-viaje">Viajar a {{comercio}}</ion-title>
+        <ion-title class="titulo-comercio-viaje" *ngIf="dato.lat > 0">Viajar a {{comercio}}</ion-title>
+        <ion-title class="titulo-comercio-viaje" *ngIf="dato.lat === 0">Agregar GPS de {{comercio}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -20,21 +21,25 @@
         </ion-fab-list>
     </ion-fab>
 
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [minZoom]="zoom" (mapClick)="agregarMarker($event)">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [minZoom]="zoom" (mapClick)="agregarMarker($event)" *ngIf="dato.lat > 0">
         <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa" [panel]="setPanel()" (onResponse)="getStatus($event)" [renderOptions]="renderOptions" [markerOptions]="markerOptions"></agm-direction>
         <agm-marker *ngIf="latMarker > 0" [latitude]="latMarker" [longitude]="lngMarker"></agm-marker>
     </agm-map>
 
-    <ion-button expand="block" fill="clear" (click)="iniciar()">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="19" [minZoom]="19" (mapClick)="agregarMarker($event)" *ngIf="dato.lat === 0">
+        <agm-marker *ngIf="latMarker > 0" [latitude]="latMarker" [longitude]="lngMarker"></agm-marker>
+    </agm-map>
+
+    <ion-button expand="block" fill="clear" (click)="iniciar()" *ngIf="dato.lat > 0">
         <ion-icon name="play" color=""></ion-icon>
     </ion-button>
 
-    <ion-card color="light" id="myPanel" style="height: 100%;"></ion-card>
+    <ion-card color="light" id="myPanel" style="height: 100%;" *ngIf="dato.lat > 0"></ion-card>
 
 </ion-content>
 
 <ion-content text-center color="" *ngIf="latEscucha === 0">
 
-    <h1 class="sin-datos-viaje">Sin datos de viaje</h1>
+    <h1 class="sin-datos-viaje">Sin datos de viaje o Cargando Información</h1>
 
 </ion-content>
