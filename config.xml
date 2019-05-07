@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="mx.com.ferremayoristas.fvta" version="1.3.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="mx.com.ferremayoristas.fvta" version="1.3.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>FerreVentas</name>
     <description>Una aplicación para los asesores de Ferremayoristas.</description>
     <author email="contacto@ferremayoristas.com.mx" href="http://ferremayoristas.com.mx/">Ferremayoristas Team</author>
@@ -82,4 +82,7 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>Utilizamos su ubicación para la funcionalidad completa de ciertas funciones de la aplicación.</string>
+    </edit-config>
 </widget>

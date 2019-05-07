@@ -318,7 +318,6 @@ export class UsuarioService {
 
     if (this.net.getNetSatus() === ConnectionStatus.Offline) {
       this.getLocalData('mensaje-visita').then((resp: any) => {
-        console.log(resp);
         const array = [];
         if (resp === null) {
           array.push(mensaje);
@@ -330,6 +329,7 @@ export class UsuarioService {
           this.setLocalData('mensaje-visita', array);
         }
       });
+      return null;
     } else {
       this.getLocalData('mensaje-visita').then((resp: any) => {
         if (resp === null) {

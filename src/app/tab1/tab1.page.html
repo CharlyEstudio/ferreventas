@@ -44,8 +44,11 @@
         <ion-card-content class="lista-clientes">
             <ion-virtual-scroll [items]="client">
                 <ion-item color="light" *virtualItem="let cli" (click)="irA(cli)">
-                    <ion-icon slot="start" color="success" name="contact" *ngIf="cli.visita !== 0"></ion-icon>
-                    <ion-icon slot="start" color="danger" name="contact" *ngIf="cli.visita === 0"></ion-icon>
+                    <ion-icon slot="start" color="danger" name="contact" *ngIf="cli.tipoVis === 'cobro'"></ion-icon>
+                    <ion-icon slot="start" color="tertiary" name="contact" *ngIf="cli.tipoVis === 'venta'"></ion-icon>
+                    <ion-icon slot="start" color="success" name="contact" *ngIf="cli.tipoVis === 'ambas'"></ion-icon>
+                    <ion-icon slot="start" color="primary" name="contact" *ngIf="cli.tipoVis === 'ninguna'"></ion-icon>
+                    <ion-icon slot="start" color="medium" name="contact" *ngIf="cli.tipoVis === 'not'"></ion-icon>
                     <ion-label class="cliente-nombre"># {{ cli.numero }} {{ cli.nombre }}</ion-label>
                 </ion-item>
             </ion-virtual-scroll>

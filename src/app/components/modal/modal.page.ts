@@ -35,6 +35,16 @@ export class ModalPage implements OnInit {
   }
 
   enviar(texto: any) {
+    if (this.tipo === undefined) {
+      this.avisos('Falto colocar un tipo de acción.');
+      return;
+    }
+
+    if (texto === '') {
+      this.avisos('Falto colocar un comentario.');
+      return;
+    }
+
     this.fecha = this.usuario.getDìa();
     this.hora = this.usuario.getHora();
     this.confirmar(texto);
@@ -52,17 +62,17 @@ export class ModalPage implements OnInit {
           text: 'Si',
           cssClass: 'text-toast-white',
           handler: () => {
-            this.usuario.enviarComentario(this.dato.numero, this.dato.perid, this.tipo, msg, this.fecha, this.hora);
-            // .subscribe((resp: any) => {
-            //   if (resp !== null) {
-            //     this.avisos('Se realizo el envio.');
-            //     setTimeout(() => {
-            //       this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
-            //     }, 2000);
-            //   } else {
-            //     this.avisos('Error al enviar.');
-            //   }
-            // });
+            this.usuario.enviarComentario(this.dato.numero, this.dato.perid, this.tipo, msg, this.fecha, this.hora)
+            .subscribe((resp: any) => {
+              if (resp !== null) {
+                this.avisos('Se realizo el envio.');
+                setTimeout(() => {
+                  this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
+                }, 2000);
+              } else {
+                this.avisos('Se guardo de forma local.');
+              }
+            });
           }
         }, {
           text: 'No',
