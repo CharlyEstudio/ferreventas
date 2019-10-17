@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+      <ion-menu-toggle padding (click)="toggleMenu">
+          <ion-icon name="menu"></ion-icon>
+      </ion-menu-toggle>
       <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
           Conectado
           <ion-icon color="success" name="disc"></ion-icon>

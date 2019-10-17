@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-img [src]="'https://ferremayoristas.com.mx:3001/img/usuarios/' + usuario.img"></ion-img>
+
+  <ion-grid padding>
+    <ion-row>
+      <ion-col size="12">
+        <ion-text color="dark">
+          <h1>{{usuario.nombre}},</h1>
+          <small>{{usuario.rol}}</small>
+        </ion-text>
+      </ion-col>
+      <ion-col size="12">
+        Email: {{usuario.email}}
+      </ion-col>
+      <ion-col size="12">
+        IMEI: {{usuario.imei}}
+      </ion-col>
+      <ion-col size="12">
+        Ferrum: {{usuario.idFerrum}}
+      </ion-col>
+      <ion-col size="12">
+        Útilma Ubicación: {{usuario.lat}}, {{usuario.lat}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-item-divider *ngIf="usuario.rol === 'SUP_ROLE'">
+    <ion-label>
+      Avanzado
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-grid padding *ngIf="usuario.rol === 'SUP_ROLE'">
+    <ion-row>
+      <ion-col size="12">
+        <ion-list>
+          <ion-list-header>Ruta Actual</ion-list-header>
+
+          <ion-item>
+            <ion-label>Asesor</ion-label>
+            <ion-label>{{vigilando}}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list>          
+          <ion-list-header>Cambio de Ruta</ion-list-header>
+
+          <ion-item *ngIf="!coneccion">
+            <ion-label>No hay conexión</ion-label>
+          </ion-item>
+        
+          <ion-item *ngIf="coneccion">
+            <ion-label>Asesores</ion-label>
+            <ion-select #ruta placeholder="Seleccione uno" (ionChange)="cambiarRuta(ruta.value)">
+              <ion-select-option *ngFor="let ase of asesores" [value]="ase.idFerrum">{{ase.nombre}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

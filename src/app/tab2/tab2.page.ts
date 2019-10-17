@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 
 // Servicios
 import { UsuarioService } from '../services/usuario.service';
@@ -18,6 +19,7 @@ export class Tab2Page {
   mapTypeControl = true;
 
   constructor(
+    public menuCtrl: MenuController,
     private usuario: UsuarioService,
     public ws: WsService
   ) {
@@ -27,6 +29,10 @@ export class Tab2Page {
       this.lat = this.clientes[indice].lat;
       this.lng = this.clientes[indice].lng;
     });
+  }
+
+  toggleMenu() {
+    this.menuCtrl.toggle(); // Add this method to your button click function
   }
 
   doSomethingWithTheMapInstance(event: any) {

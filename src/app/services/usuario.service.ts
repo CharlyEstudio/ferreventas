@@ -638,4 +638,20 @@ export class UsuarioService {
     //   headers: {'content-Type': 'application/x-www-form-urlencoded'}
     // });
   }
+
+  solicitarAsesores() {
+    return new Promise((resolve, reject) => {
+      this.ws.acciones('movil-obtener-asesores', {}, (resp: any) => {
+        resolve(resp);
+      });
+    });
+  }
+
+  cambiarRuta(id: any, ruta: number) {
+    return new Promise((resolve, reject) => {
+      this.ws.acciones('movil-cambiar-ruta', {id, ruta}, (resp: any) => {
+        resolve(resp);
+      });
+    });
+  }
 }

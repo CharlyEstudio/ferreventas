@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController } from '@ionic/angular';
 
 // Servicios
 import { WsService } from '../services/ws.service';
@@ -32,10 +32,15 @@ export class Tab4Page implements OnInit {
   ventaMesAnt: number;
 
   constructor(
+    public menuCtrl: MenuController,
     private plt: Platform,
     public ws: WsService,
     private usuario: UsuarioService
   ) { }
+
+  toggleMenu() {
+    this.menuCtrl.toggle(); // Add this method to your button click function
+  }
 
   ngOnInit() {
     this.plt.ready().then(() => {

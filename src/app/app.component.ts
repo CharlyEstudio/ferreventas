@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 // Plugins
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 // Servicios
@@ -16,7 +17,9 @@ import { WsService } from './services/ws.service';
 })
 export class AppComponent {
   constructor(
+    private menu: MenuController,
     private platform: Platform,
+    private router: Router,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private ws: WsService,
@@ -40,5 +43,25 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  config() {
+    this.router.navigate(['/config']);
+    this.menu.close();
+  }
+
+  existencias() {
+    this.router.navigate(['/existencias']);
+    this.menu.close();
+  }
+
+  lista() {
+    this.router.navigate(['/listaprecios']);
+    this.menu.close();
+  }
+
+  estadoCuenta() {
+    this.router.navigate(['/edocta']);
+    this.menu.close();
   }
 }

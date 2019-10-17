@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToastController, Platform } from '@ionic/angular';
+import { ToastController, Platform, MenuController } from '@ionic/angular';
 
 // Plugins
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
@@ -39,6 +39,7 @@ export class Tab3Page {
   desgloce: any[] = [];
 
   constructor(
+    public menuCtrl: MenuController,
     private plt: Platform,
     private tstCtl: ToastController,
     private router: Router,
@@ -46,6 +47,10 @@ export class Tab3Page {
     private usuario: UsuarioService,
     public ws: WsService
   ) {}
+
+  toggleMenu() {
+    this.menuCtrl.toggle(); // Add this method to your button click function
+  }
 
   importe(valor: any) {
     if (valor === '') {

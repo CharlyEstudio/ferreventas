@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { ToastController } from '@ionic/angular';
 import { WsService } from 'src/app/services/ws.service';
-import { map } from 'rxjs/internal/operators/map';
+import { GeoService } from 'src/app/services/geo.service';
 
 @Component({
   selector: 'app-modal',
@@ -23,7 +23,9 @@ export class ModalPage implements OnInit {
     private router: ActivatedRoute,
     private toastController: ToastController,
     private route: Router,
-    private usuario: UsuarioService
+    private usuario: UsuarioService,
+    private gps: GeoService,
+    private ws: WsService
   ) {
     this.dato = JSON.parse(this.router.snapshot.paramMap.get('data'));
   }
@@ -42,15 +44,33 @@ export class ModalPage implements OnInit {
       return;
     }
 
-    // if (texto === '') {
-    //   this.avisos('Falto colocar un comentario.');
-    //   return;
-    // }
-
     this.fecha = this.usuario.getDìa();
     this.hora = this.usuario.getHora();
+    this.gps.gps().then((coords: any) => {
+      const data = {
+        hora: this.hora,
+        fecha: this.fecha,
+        origen: `${coords.coords.latitude},${coords.coords.longitude}`,
+        destino: `${this.dato.lat},${this.dato.lng}`,
+        clienteid: this.dato.clienteid,
+        idFerrum: this.usuario.gps.idFerrum,
+        id: this.usuario.gps._id
+      };
 
-    this.confirmar(texto);
+      this.ws.distancia(data).then((resp: any) => {
+        resp.subscribe((info: any) => {
+          if (info.status) {
+            if (info.resp.visita) {
+              this.confirmar(texto);
+            } else {
+              this.avisos('Tu ubicación no esta con el cliente, se registra como NO VISITADO, distancia: '
+              + info.resp.resp.distancia + ' ' + info.resp.resp.tipo);
+              setTimeout(() => this.confirmar(texto), 5050);
+            }
+          }
+        });
+      });
+    });
   }
 
   async confirmar(msg: any) {
@@ -84,26 +104,7 @@ export class ModalPage implements OnInit {
                   this.avisos('Error al guardado.');
                 }
               });
-              // if (resp !== null) {
-              //   this.avisos('Se realizo el envio.');
-              //   setTimeout(() => {
-              //     this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
-              //   }, 3000);
-              // } else {
-              //   this.avisos('Error al guardado.');
-              // }
             });
-            // this.usuario.enviarComentario(mensaje)
-            // .subscribe((resp: any) => {
-            //   if (resp !== null) {
-            //     this.avisos('Se realizo el envio.');
-            //     setTimeout(() => {
-            //       this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
-            //     }, 3000);
-            //   } else {
-            //     this.avisos('Error al guardado.');
-            //   }
-            // });
           }
         }, {
           text: 'No',

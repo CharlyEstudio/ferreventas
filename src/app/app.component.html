@@ -1,3 +1,26 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="start" menuId="first">
+    <ion-header>
+      <ion-toolbar color="tertiary">
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-item (click)="config()">
+          <ion-icon name="contact"></ion-icon> Usuario
+        </ion-item>
+        <ion-item (click)="existencias()">
+          <ion-icon name="cube"></ion-icon> Existencias
+        </ion-item>
+        <ion-item (click)="lista()">
+          <ion-icon name="paper"></ion-icon> Listas de Precios
+        </ion-item>
+        <ion-item (click)="estadoCuenta()">
+          <ion-icon name="analytics"></ion-icon> Estado de Cuenta
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet main></ion-router-outlet>
 </ion-app>

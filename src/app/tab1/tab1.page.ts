@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Platform, ToastController } from '@ionic/angular';
+import { Platform, ToastController, MenuController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 
 // Plugins
@@ -42,6 +42,7 @@ export class Tab1Page implements OnInit {
 
   constructor(
     private storage: Storage,
+    public menuCtrl: MenuController,
     private plt: Platform,
     private tstController: ToastController,
     private router: Router,
@@ -93,6 +94,10 @@ export class Tab1Page implements OnInit {
         }
       }
     });
+  }
+
+  toggleMenu() {
+    this.menuCtrl.toggle(); // Add this method to your button click function
   }
 
   ngOnInit() {

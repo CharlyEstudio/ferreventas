@@ -26,10 +26,7 @@ export class ClientePage implements OnInit {
     private router: ActivatedRoute,
     private toastController: ToastController,
     private route: Router,
-    private callNumber: CallNumber,
-    private usuario: UsuarioService,
-    private gps: GeoService,
-    private ws: WsService
+    private callNumber: CallNumber
   ) {
     this.dato = JSON.parse(this.router.snapshot.paramMap.get('data'));
     if (this.dato.visita === 0) {
@@ -47,40 +44,13 @@ export class ClientePage implements OnInit {
   }
 
   llamar(dato: any) {
-    console.log('Estoy llamando...' + dato.tel);
     this.callNumber.callNumber(dato.tel, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
   }
 
   enviarComentario() {
-    this.hora = this.usuario.getHora();
-    this.fecha = this.usuario.getDìa();
-    this.gps.gps().then((coords: any) => {
-      const data = {
-        hora: this.hora,
-        fecha: this.fecha,
-        origen: `${coords.coords.latitude},${coords.coords.longitude}`,
-        destino: `${this.dato.lat},${this.dato.lng}`,
-        clienteid: this.dato.clienteid,
-        idFerrum: this.usuario.gps.idFerrum,
-        id: this.usuario.gps._id
-      };
-
-      this.ws.distancia(data).then((resp: any) => {
-        resp.subscribe((info: any) => {
-          if (info.status) {
-            if (info.resp.visita) {
-              this.route.navigate(['/modal', JSON.stringify(this.dato)]);
-            } else {
-              this.avisos('Tu ubicación no esta con el cliente, se registra como NO VISITADO, distancia: '
-              + info.resp.resp.distancia + ' ' + info.resp.resp.tipo);
-              setTimeout(() => this.route.navigate(['/modal', JSON.stringify(this.dato)]), 5050);
-            }
-          }
-        });
-      });
-    });
+    this.route.navigate(['/modal', JSON.stringify(this.dato)]);
   }
 
   avisos(msg: any) {
