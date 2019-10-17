@@ -42,6 +42,11 @@
       <ion-col size="4" text-center>
         <h1>{{producto.tx}}<small>TX</small></h1>
       </ion-col>
+      <ion-col size="12" text-center>
+        <h1>Ficha Técnica</h1>
+        <ion-icon name="document" color="danger" size="big" (click)="verInfo()"></ion-icon>
+        <p>IMPORTANTE: La ficha ténica viene desde Truper, si al abrir el PDF hay un error, es por que esa ficha técnica de ese código no existe.</p>
+      </ion-col>
     </ion-row>
   </ion-grid>
 

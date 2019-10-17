@@ -75,6 +75,10 @@
             {
               "xml": "<feature name=\"LocalNotification\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.localnotification.LocalNotification\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -233,6 +237,9 @@
       "PACKAGE_NAME": "mx.com.ferremayoristas.fvta"
     },
     "cordova-plugin-local-notification": {
+      "PACKAGE_NAME": "mx.com.ferremayoristas.fvta"
+    },
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "mx.com.ferremayoristas.fvta"
     }
   },
@@ -613,6 +620,15 @@
         "cordova.plugins.notification.local.core",
         "plugin.notification.local.core"
       ]
+    },
+    {
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "pluginId": "cordova-plugin-inappbrowser",
+      "clobbers": [
+        "cordova.InAppBrowser.open",
+        "window.open"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -632,6 +648,7 @@
     "cordova-plugin-file": "6.0.1",
     "cordova-plugin-advanced-http": "2.1.1",
     "cordova-plugin-badge": "0.8.8",
-    "cordova-plugin-local-notification": "0.9.0-beta.2"
+    "cordova-plugin-local-notification": "0.9.0-beta.2",
+    "cordova-plugin-inappbrowser": "3.1.0"
   }
 }

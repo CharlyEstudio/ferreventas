@@ -21,4 +21,12 @@ export class PeticionesService {
       });
     });
   }
+
+  getEdoCta(asesor: any, numero: any, rol: any) {
+    return new Promise((resolve, reject) => {
+      this.ws.acciones('movil-edocta', {asesor, numero, rol}, (resp: any) => {
+        resolve(resp);
+      });
+    });
+  }
 }

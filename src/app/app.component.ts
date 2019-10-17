@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 // Servicios
 import { WsService } from './services/ws.service';
@@ -22,6 +23,7 @@ export class AppComponent {
     private router: Router,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private iab: InAppBrowser,
     private ws: WsService,
     private localNotifications: LocalNotifications
   ) {
@@ -56,8 +58,10 @@ export class AppComponent {
   }
 
   lista() {
-    this.router.navigate(['/listaprecios']);
     this.menu.close();
+    const url = `https://ferremayoristas.com.mx/lista`;
+    const browser = this.iab.create(url, '_blank');
+    browser.show();
   }
 
   estadoCuenta() {

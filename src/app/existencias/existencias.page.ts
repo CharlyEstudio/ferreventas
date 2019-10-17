@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+// Plugins
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+
 // Servicios
 import { PeticionesService } from '../services/peticiones.service';
 
@@ -14,7 +17,8 @@ export class ExistenciasPage implements OnInit {
   articulo: number;
 
   constructor(
-    private peticiones: PeticionesService
+    private peticiones: PeticionesService,
+    private iab: InAppBrowser
   ) { }
 
   ngOnInit() {
@@ -29,7 +33,6 @@ export class ExistenciasPage implements OnInit {
             if (art.length > 0) {
               this.articulo = art.length;
               this.producto = art[0];
-              console.log(this.producto);
             }
           }
         });
@@ -38,6 +41,12 @@ export class ExistenciasPage implements OnInit {
       this.producto = null;
       this.articulo = 0;
     }
+  }
+
+  verInfo() {
+    const url = `https://www.truper.com.mx/pdf/diagramas/${this.producto.clave}.pdf`;
+    const browser = this.iab.create(url, '_blank');
+    browser.show();
   }
 
 }

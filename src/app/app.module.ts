@@ -26,6 +26,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,6 +55,7 @@ import { AppComponent } from './app.component';
     LocalNotifications,
     Network,
     CallNumber,
+    InAppBrowser,
     BarcodeScanner,
     TextToSpeech,
     HTTP

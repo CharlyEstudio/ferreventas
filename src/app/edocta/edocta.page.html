@@ -9,4 +9,19 @@
 
 <ion-content>
 
+  <ion-item padding>
+    <ion-label position="floating">Número de Cliente</ion-label>
+    <ion-input #numero inputmode="text" (ionInput)="obtenerEdoCta(numero.value)"></ion-input>
+  </ion-item>
+
+  <ion-grid *ngIf="correcto">
+    <ion-row>
+      <ion-col size="12" text-center>
+        <h1>{{msg}}</h1>
+        <ion-icon name="document" color="danger" size="big" (click)="verInfo()"></ion-icon>
+        <p>Este documento es solo informativo y puede que cambie en cualquier momento.</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
