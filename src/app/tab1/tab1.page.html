@@ -1,46 +1,83 @@
 <ion-header>
     <ion-toolbar color="">
         <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
-            ServerOn
+            Conectado
             <ion-icon color="success" name="disc"></ion-icon>
         </ion-buttons>
         <ion-buttons padding slot="end" *ngIf="!ws.socketStatus">
-            ServerOff
+            Desconectado
             <ion-icon color="danger" name="disc"></ion-icon>
         </ion-buttons>
+        <!-- <ion-buttons padding slot="end" *ngIf="tipo === '4G'">
+            {{tipo}}
+        </ion-buttons>
+        <ion-buttons padding slot="end" *ngIf="tipo === 'WiFi'">
+            <ion-icon color="success" name="wifi"></ion-icon>
+        </ion-buttons>
+        <ion-buttons padding slot="end" *ngIf="tipo === 'Ethernet'">
+            {{tipo}}
+        </ion-buttons>
+        <ion-buttons padding slot="end" *ngIf="tipo !== '4G' && tipo !== 'WiFi' && tipo !== 'Ethernet'">
+            NoData
+            <ion-icon color="danger" name="radio-button-off"></ion-icon>
+        </ion-buttons> -->
         <ion-title>
-            Clientes
+            <small>
+                {{imei}}
+            </small>
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content color="">
+<ion-content color="" *ngIf="!activado">
+    <ion-card class="welcome-card" color="light">
+        <ion-card-content class="lista-clientes">
+            <h1>Equipo Desactivado</h1>
+            <ion-label>
+                <ion-badge color="danger">No tiene permiso esta unidad</ion-badge>
+            </ion-label>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+
+<ion-content color="" *ngIf="activado">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh(true, $event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Deslice para Actualizar" refreshingSpinner="circles" refreshingText="Actualizando...">
         </ion-refresher-content>
     </ion-refresher>
     <ion-card class="welcome-card" color="light">
         <ion-img src="/assets/fondo4.jpg"></ion-img>
-        <ion-card-header>
-            <ion-card-subtitle>Noticias del Día</ion-card-subtitle>
-            <ion-card-title>Mensaje de {{ current }}</ion-card-title>
+        <ion-card-header *ngIf="message !== ''">
+            <!-- <ion-card-subtitle>Noticias del Día</ion-card-subtitle> -->
+            <ion-card-title>{{ current }}</ion-card-title>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content *ngIf="message !== ''">
             <p>{{ message }}</p>
         </ion-card-content>
     </ion-card>
     <ion-card class="welcome-card" color="light">
-        <ion-img src="/assets/fondo3.jpg"></ion-img>
+        <!-- <ion-img src="/assets/fondo3.jpg"></ion-img> -->
         <ion-card-header class="tipo-lista">
             <ion-list lines="none">
                 <ion-list-header color="light">
                     <ion-label>
-                        <ion-badge color="danger" *ngIf="client.length === 0">{{ msg }}</ion-badge>
-                        <ion-badge color="success" *ngIf="client.length !== 0">{{ msg }}</ion-badge>
+                        <small>
+                            <ion-badge color="danger" *ngIf="client.length === 0">{{ msg }}</ion-badge>
+                            <ion-badge color="success" *ngIf="client.length !== 0">{{ msg }}</ion-badge>
+                        </small>
                     </ion-label>
                 </ion-list-header>
             </ion-list>
         </ion-card-header>
+        <!-- <ion-card-content class="lista-clientes">
+            <ion-button color="success" (click)="verLocal()">Local</ion-button>
+            <ion-button color="danger" (click)="borrarStorage()">Borrar</ion-button>
+            <ion-virtual-scroll [items]="local">
+                <ion-item color="light" *virtualItem="let loc">
+                    <ion-label class="cliente-nombre"># {{ loc.numero }} - {{ loc.fecha }} - {{ loc.hora }} - {{ loc.accion }}</ion-label>
+                </ion-item>
+            </ion-virtual-scroll>
+        </ion-card-content> -->
         <ion-card-content class="lista-clientes">
             <ion-virtual-scroll [items]="client">
                 <ion-item color="light" *virtualItem="let cli" (click)="irA(cli)">

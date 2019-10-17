@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 // Servicios
 import { UsuarioService } from '../../services/usuario.service';
 import { ToastController } from '@ionic/angular';
+import { WsService } from 'src/app/services/ws.service';
+import { map } from 'rxjs/internal/operators/map';
 
 @Component({
   selector: 'app-modal',
@@ -40,13 +42,14 @@ export class ModalPage implements OnInit {
       return;
     }
 
-    if (texto === '') {
-      this.avisos('Falto colocar un comentario.');
-      return;
-    }
+    // if (texto === '') {
+    //   this.avisos('Falto colocar un comentario.');
+    //   return;
+    // }
 
     this.fecha = this.usuario.getDìa();
     this.hora = this.usuario.getHora();
+
     this.confirmar(texto);
   }
 
@@ -62,17 +65,45 @@ export class ModalPage implements OnInit {
           text: 'Si',
           cssClass: 'text-toast-white',
           handler: () => {
-            this.usuario.enviarComentario(this.dato.numero, this.dato.perid, this.tipo, msg, this.fecha, this.hora)
-            .subscribe((resp: any) => {
-              if (resp !== null) {
-                this.avisos('Se realizo el envio.');
-                setTimeout(() => {
-                  this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
-                }, 2000);
-              } else {
-                this.avisos('Se guardo de forma local.');
-              }
+            const mensaje = {
+              numero: this.dato.numero,
+              asesor: this.dato.perid,
+              accion: this.tipo,
+              comentario: msg,
+              fecha: this.fecha,
+              hora: this.hora
+            };
+            this.usuario.enviarComentario(mensaje).then((resp: any) => {
+              resp.subscribe((ms: any) => {
+                if (ms.status) {
+                  this.avisos('Se realizo el envio.');
+                  setTimeout(() => {
+                    this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
+                  }, 1000);
+                } else {
+                  this.avisos('Error al guardado.');
+                }
+              });
+              // if (resp !== null) {
+              //   this.avisos('Se realizo el envio.');
+              //   setTimeout(() => {
+              //     this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
+              //   }, 3000);
+              // } else {
+              //   this.avisos('Error al guardado.');
+              // }
             });
+            // this.usuario.enviarComentario(mensaje)
+            // .subscribe((resp: any) => {
+            //   if (resp !== null) {
+            //     this.avisos('Se realizo el envio.');
+            //     setTimeout(() => {
+            //       this.route.navigate(['/cliente', JSON.stringify(this.dato)]);
+            //     }, 3000);
+            //   } else {
+            //     this.avisos('Error al guardado.');
+            //   }
+            // });
           }
         }, {
           text: 'No',
@@ -89,7 +120,7 @@ export class ModalPage implements OnInit {
   avisos(msg: any) {
     const toast = this.toastController.create({
       message: msg,
-      duration: 2000,
+      duration: 3000,
       position: 'bottom',
       color: 'danger'
     });

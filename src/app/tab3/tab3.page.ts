@@ -23,8 +23,10 @@ export class Tab3Page {
   impor = 0;
   tipoPago: string;
   tipoPayment: string;
-  intDebito = 0.0145;
-  intCredito = 0.0125;
+  // intDebito = 0.0145;
+  // intCredito = 0.0125;
+  intDebito = 0.0125;
+  intCredito = 0.0145;
   intCredito3 = 0.03;
   intCredito6 = 0.058;
   intCredito9 = 0.087;
@@ -93,7 +95,7 @@ export class Tab3Page {
     this.porcenFinal = 0;
     this.pagoMes = 0;
     this.promo = valor;
-    let iva
+    let iva;
     switch (valor) {
       case '3':
         iva = (this.total * this.intCredito3) * this.impuesto;
@@ -167,16 +169,24 @@ export class Tab3Page {
               pagoMensual: this.pagoMes,
               factura: barcodeData.text
             };
-            this.usuario.enviarPago(enviar).subscribe((resp: any) => {
-              if (resp !== null) {
-                this.mensaje('Envio Correcto', 'Se ha enviado correctamente el pago.');
-                setTimeout(() => {
-                  this.router.navigate(['/']);
-                }, 2000);
-              } else {
-                this.mensaje('Error de Envio', 'No se envio correctamente el pago, favor de reportar.');
-              }
-            });
+            this.usuario.enviarPago(enviar).then((resp: any) => {
+              console.log(resp);
+              resp.subscribe((enviado: any) => {
+                console.log(enviado);
+                if (enviado.status) {
+                }
+              });
+            }, err => console.log(err.message));
+            // this.usuario.enviarPago(enviar).subscribe((resp: any) => {
+            //   if (resp !== null) {
+            //     this.mensaje('Envio Correcto', 'Se ha enviado correctamente el pago.');
+            //     setTimeout(() => {
+            //       this.router.navigate(['/']);
+            //     }, 2000);
+            //   } else {
+            //     this.mensaje('Error de Envio', 'No se envio correctamente el pago, favor de reportar.');
+            //   }
+            // });
           });
         } else {
           this.mensaje('Cancelado', 'Se cancelo el escanneo. Favor de volver a intentar.');
@@ -210,16 +220,26 @@ export class Tab3Page {
           pagoMensual: this.pagoMes,
           factura: '200584'
         };
-        this.usuario.enviarPago(enviar).subscribe((resp: any) => {
-          if (resp !== null) {
-            this.mensaje('Envio Correcto', 'Se ha enviado correctamente el pago.');
-            setTimeout(() => {
+        this.usuario.enviarPago(enviar).then((resp: any) => {
+          resp.subscribe((info: any) => {
+            if (info.status) {
+              this.mensaje('Pago Correcto', 'Pago enviado a guardar');
               this.router.navigate(['/']);
-            }, 2000);
-          } else {
-            this.mensaje('Error de Envio', 'No se envio correctamente el pago, favor de reportar.');
-          }
-        });
+            } else {
+              this.mensaje('Pago Incorrecto', 'Pago sin enviar');
+            }
+          });
+        }, err => console.log(err.message));
+        // this.usuario.enviarPago(enviar).subscribe((resp: any) => {
+        //   if (resp !== null) {
+        //     this.mensaje('Envio Correcto', 'Se ha enviado correctamente el pago.');
+        //     setTimeout(() => {
+        //       this.router.navigate(['/']);
+        //     }, 2000);
+        //   } else {
+        //     this.mensaje('Error de Envio', 'No se envio correctamente el pago, favor de reportar.');
+        //   }
+        // });
       });
     }
   }

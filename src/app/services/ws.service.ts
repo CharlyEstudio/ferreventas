@@ -28,11 +28,20 @@ export class WsService {
     });
   }
 
-  acciones(evento: string, payload?: any, callback?: Function) {
+  acciones(evento: string, payload?: any, callback?: (e: any) => void) {
     this.socket.emit(evento, payload, callback);
+    callback(this.socket.fromEvent(evento));
   }
 
   escuchar(evento: string) {
     return this.socket.fromEvent(evento);
+  }
+
+  distancia(data: any) {
+    return new Promise((resolve, reject) => {
+      this.acciones('movil-distancia', data, resp => {
+        resolve(resp);
+      });
+    });
   }
 }

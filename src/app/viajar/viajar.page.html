@@ -8,7 +8,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content color="" *ngIf="latEscucha > 0">
+<ion-content color="" *ngIf="lat > 0">
 
     <ion-fab vertical="top" horizontal="end" edge slot="fixed">
         <ion-fab-button color="danger">
@@ -21,14 +21,16 @@
         </ion-fab-list>
     </ion-fab>
 
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [minZoom]="zoom" (mapClick)="agregarMarker($event)" *ngIf="dato.lat > 0">
-        <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa" [panel]="setPanel()" (onResponse)="getStatus($event)" [renderOptions]="renderOptions" [markerOptions]="markerOptions"></agm-direction>
-        <agm-marker *ngIf="latMarker > 0" [latitude]="latMarker" [longitude]="lngMarker"></agm-marker>
+    <agm-map [latitude]="origin.lat" [longitude]="origin.lng" [zoom]="zoom" [minZoom]="zoom" (mapClick)="agregarMarker($event)" *ngIf="dato.lat > 0">
+        <agm-marker [latitude]="origin.lat" [longitude]="origin.lng"></agm-marker>
+        <!-- <agm-marker [latitude]="destiny.lat" [longitude]="destiny.lng"></agm-marker> -->
+        <!-- <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa" [panel]="setPanel()" (onResponse)="getStatus($event)" [renderOptions]="renderOptions" [markerOptions]="markerOptions"></agm-direction> -->
+        <agm-direction [origin]="origin" [destination]="destiny" [provideRouteAlternatives]="alternativa" [panel]="setPanel()" [renderOptions]="renderOptions" [markerOptions]="markerOptions"></agm-direction>
     </agm-map>
 
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="19" [minZoom]="19" (mapClick)="agregarMarker($event)" *ngIf="dato.lat === 0">
+    <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="19" [minZoom]="19" (mapClick)="agregarMarker($event)" *ngIf="dato.lat === 0">
         <agm-marker *ngIf="latMarker > 0" [latitude]="latMarker" [longitude]="lngMarker"></agm-marker>
-    </agm-map>
+    </agm-map> -->
 
     <ion-button expand="block" fill="clear" (click)="iniciar()" *ngIf="dato.lat > 0">
         <ion-icon name="play" color=""></ion-icon>
@@ -38,7 +40,7 @@
 
 </ion-content>
 
-<ion-content text-center color="" *ngIf="latEscucha === 0">
+<ion-content text-center color="" *ngIf="lat === 0">
 
     <h1 class="sin-datos-viaje">Sin datos de viaje o Cargando Información</h1>
 

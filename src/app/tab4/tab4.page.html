@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
       <ion-buttons padding slot="end" *ngIf="ws.socketStatus">
-          ServerOn
+          Conectado
           <ion-icon color="success" name="disc"></ion-icon>
       </ion-buttons>
       <ion-buttons padding slot="end" *ngIf="!ws.socketStatus">
-          ServerOff
+          Desconectado
           <ion-icon color="danger" name="disc"></ion-icon>
       </ion-buttons>
     <ion-title>Tablero</ion-title>

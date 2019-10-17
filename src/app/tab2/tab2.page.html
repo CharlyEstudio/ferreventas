@@ -28,7 +28,7 @@
 
 <ion-content color="" *ngIf="lat > 0">
 
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="8" [panControl]="panControl" [mapTypeControl]="mapTypeControl" (mapReady)="doSomethingWithTheMapInstance($event)">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="11" [panControl]="panControl" [mapTypeControl]="mapTypeControl" (mapReady)="doSomethingWithTheMapInstance($event)">
         <agm-marker *ngFor="let cli of clientes" [latitude]="cli.lat" [longitude]="cli.lng"></agm-marker>
         <agm-kml-layer></agm-kml-layer>
     </agm-map>

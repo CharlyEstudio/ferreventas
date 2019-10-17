@@ -17,12 +17,14 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { Uid } from '@ionic-native/uid/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -49,10 +51,12 @@ import { AppComponent } from './app.component';
     AndroidPermissions,
     Uid,
     Geolocation,
+    LocalNotifications,
     Network,
     CallNumber,
     BarcodeScanner,
-    TextToSpeech
+    TextToSpeech,
+    HTTP
   ],
   bootstrap: [AppComponent]
 })

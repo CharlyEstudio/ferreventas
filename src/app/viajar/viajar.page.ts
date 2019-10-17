@@ -88,20 +88,28 @@ export class ViajarPage implements OnInit, OnDestroy {
   ) {
     this.dato = JSON.parse(this.router.snapshot.paramMap.get('data'));
 
-    this.observar = this.regresar().subscribe(
-      escuchando => {
-        this.latEscucha = escuchando.coords.latitude;
-        this.lngEscucha = escuchando.coords.longitude;
+    // this.observar = this.regresar().subscribe(
+    //   escuchando => {
+    //     this.latEscucha = escuchando.coords.latitude;
+    //     this.lngEscucha = escuchando.coords.longitude;
 
-        // // Ruta
-        this.origin.lat = escuchando.coords.latitude;
-        this.origin.lng = escuchando.coords.longitude;
-        this.lat = escuchando.coords.latitude;
-        this.lng = escuchando.coords.longitude;
-      },
-      error => this.mensaje(error),
-      () => console.log('Salimos')
-    );
+    //     // // Ruta
+    //     this.origin.lat = escuchando.coords.latitude;
+    //     this.origin.lng = escuchando.coords.longitude;
+    //     this.lat = escuchando.coords.latitude;
+    //     this.lng = escuchando.coords.longitude;
+    //   },
+    //   error => this.mensaje(error),
+    //   () => console.log('Salimos')
+    // );
+
+    // Ubicación de Origen
+    this.geo.gps().then((ori: any) => {
+      this.origin.lat = ori.coords.latitude;
+      this.origin.lng = ori.coords.longitude;
+      this.lat = ori.coords.latitude;
+      this.lng = ori.coords.longitude;
+    });
 
     // Ubicación de Escucha
     // this.geo.ubicacionGPS().subscribe((resp: any) => {
@@ -150,9 +158,26 @@ export class ViajarPage implements OnInit, OnDestroy {
   }
 
   iniciar() {
-    this.zoom = 19;
-    this.lat = this.origin.lat;
-    this.lng = this.origin.lng;
+    // Ubicación de Origen
+    this.geo.gps().then((ori: any) => {
+      this.origin.lat = ori.coords.latitude;
+      this.origin.lng = ori.coords.longitude;
+      this.lat = ori.coords.latitude;
+      this.lng = ori.coords.longitude;
+      this.zoom = 19;
+    });
+    this.observar = this.regresar().subscribe(
+      escuchando => {
+        // // Ruta
+        this.zoom = 19;
+        this.origin.lat = escuchando.coords.latitude;
+        this.origin.lng = escuchando.coords.longitude;
+        this.lat = escuchando.coords.latitude;
+        this.lng = escuchando.coords.longitude;
+      },
+      error => this.mensaje(error),
+      () => console.log('Salimos')
+    );
   }
 
   setPanel() {
@@ -176,7 +201,7 @@ export class ViajarPage implements OnInit, OnDestroy {
     this.lngMarker = event.coords.lng;
     const msg = 'Nuevas Coordenadas:\n' +
                 event.coords.lat +
-                '\n' + event.coords.lat
+                '\n' + event.coords.lng
                 + '\nal cliente # ' + this.numero + '?';
     const toast = await this.toastCtl.create({
       header: 'Agregar GPS',

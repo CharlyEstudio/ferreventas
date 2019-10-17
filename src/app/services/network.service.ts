@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastController, Platform } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+
+import { Storage } from '@ionic/storage';
 
 export enum ConnectionStatus {
   Online,
   Offline
 }
 
-const API_URL_PHP = 'http://177.244.55.122/api';
+const API_STORAGE_KEY = 'localData';
 
 // Plugins
 import { Network } from '@ionic-native/network/ngx';
-import { Storage } from '@ionic/storage';
+
+const API_URL_PHP = 'https://ferremayoristas.com.mx/api';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +28,8 @@ export class NetworkService {
     private network: Network,
     private toastController: ToastController,
     private plt: Platform,
+    private storage: Storage,
     private http: HttpClient,
-    private storage: Storage
   ) {
     this.plt.ready().then(() => {
       this.initializeNetworkEvents();
@@ -38,38 +41,51 @@ export class NetworkService {
   public initializeNetworkEvents() {
     this.network.onDisconnect().subscribe(() => {
       if (this.status.getValue() === ConnectionStatus.Online) {
-        console.log('OffLine Red Movil');
         this.updateNetworkStatus(ConnectionStatus.Offline);
       }
     });
 
     this.network.onConnect().subscribe(() => {
-      console.log('OnLine Red Movil');
       this.updateNetworkStatus(ConnectionStatus.Online);
     });
+
   }
 
   public updateNetworkStatus(status: ConnectionStatus) {
     this.status.next(status);
 
     const connection = status === ConnectionStatus.Offline ? 'Offline' : 'Online';
-    this.mensajes(`Estas ${connection}`, 3000);
-    this.storage.get('mensaje-visita').then((resp: any) => {
-      if (resp !== null) {
-        resp.forEach((element: any) => {
-          return this.http.post(`${API_URL_PHP}/visitas.php?opcion=1`, {
-            numero: element.num,
-            asesor: element.ase,
-            accion: element.acc,
-            comentario: element.com,
-            fecha: element.fec,
-            hora: element.hor
-          }, {
-            headers: {'content-Type': 'application/x-www-form-urlencoded'}
-          });
+    if (connection === 'Online') {
+      // this.mensajes('Obtener todos los mensajes guardados', 3000);
+      this.getLocalData('mensaje-visita').then((mensajes: any) => {
+        console.log(mensajes.length);
+        this.http.post(`${API_URL_PHP}/visitas.php?opcion=4`, {
+          data: mensajes
+        }, {
+          headers: {'content-Type': 'application/x-www-form-urlencoded'}
         });
-      }
-    });
+        // for (const e of mensajes) {
+        //   console.log(e.fecha);
+        //   console.log(e.hora);
+        //   console.log(e.numero);
+        //   console.log(e.asesor);
+        //   console.log(e.accion);
+        //   console.log(e.comentario);
+        //   this.http.post(`${API_URL_PHP}/visitas.php?opcion=1`, {
+        //     numero: e.numero,
+        //     asesor: e.asesor,
+        //     accion: e.accion,
+        //     comentario: e.comentario,
+        //     fecha: e.fecha,
+        //     hora: e.hora
+        //   }, {
+        //     headers: {'content-Type': 'application/x-www-form-urlencoded'}
+        //   });
+        // }
+      });
+    } else {
+      this.mensajes(`Estas ${connection}`, 3000);
+    }
   }
 
   public onNetworkChange(): Observable<ConnectionStatus> {
@@ -87,5 +103,13 @@ export class NetworkService {
       position: 'bottom'
     });
     toast.then((to) => to.present());
+  }
+
+  getLocalData(key: any) {
+    return this.storage.get(`${API_STORAGE_KEY}-${key}`);
+  }
+
+  setLocalData(key: any, data: any) {
+    this.storage.set(`${API_STORAGE_KEY}-${key}`, data);
   }
 }
